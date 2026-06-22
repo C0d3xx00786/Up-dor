@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 using Up_Dor;
@@ -21,8 +22,14 @@ namespace WF_C_.Pages
         //Обновление Таблицы в Складе
         public void UpdateDataSource()
         {
+            dgvMedications.SuspendLayout();
+
             dgvMedications.DataSource = null;
-            dgvMedications.DataSource = Main_Menu.data;
+            dgvMedications.DataSource = Main_Menu.data.Where(item => item.Item_Status != "sold").ToList();
+
+            // Принудительно обновляем
+            dgvMedications.Refresh();
+            dgvMedications.ResumeLayout();
         }
 
         // Колонкии для таблицы
@@ -31,15 +38,15 @@ namespace WF_C_.Pages
             dgvMedications.AutoGenerateColumns = false;
             dgvMedications.Columns.Clear();
 
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Uid", HeaderText = "UID (Коробка)", SortMode = DataGridViewColumnSortMode.Automatic});
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Name", HeaderText = "Название препарата", SortMode = DataGridViewColumnSortMode.Automatic });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Barcode", HeaderText = "Штрихкод", SortMode = DataGridViewColumnSortMode.Automatic });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Retail_Price", HeaderText = "Розничная цена", SortMode = DataGridViewColumnSortMode.Automatic });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Expiration_Date", HeaderText = "Годен до", SortMode = DataGridViewColumnSortMode.Automatic });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Item_Status", HeaderText = "Статус", SortMode = DataGridViewColumnSortMode.Automatic });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Measurement_Unit", HeaderText = "Единица измерения", SortMode = DataGridViewColumnSortMode.Automatic });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Quantity_Per_Pack", HeaderText = "Кол-во в упаковке", SortMode = DataGridViewColumnSortMode.Automatic });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Supplier_Batch", HeaderText = "Номер партии", SortMode = DataGridViewColumnSortMode.Automatic });
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Uid", HeaderText = "UID (Коробка)"});
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Name", HeaderText = "Название препарата"});
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Barcode", HeaderText = "Штрихкод"});
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Retail_Price", HeaderText = "Розничная цена" });
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Expiration_Date", HeaderText = "Годен до" });
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Item_Status", HeaderText = "Статус" });
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Measurement_Unit", HeaderText = "Единица измерения" });
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Quantity_Per_Pack", HeaderText = "Кол-во в упаковке" });
+            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Supplier_Batch", HeaderText = "Номер партии" });
         }
 
         private void dgvMedications_CellClick(object sender, DataGridViewCellEventArgs e)

@@ -54,7 +54,6 @@ namespace Up_Dor
             this.pnlContent = new System.Windows.Forms.Panel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblExpiring = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblPending = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblOverdue = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLastSale = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelTop.SuspendLayout();
@@ -362,7 +361,6 @@ namespace Up_Dor
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblExpiring,
-            this.lblPending,
             this.lblOverdue,
             this.lblLastSale});
             this.statusStrip.Location = new System.Drawing.Point(0, 752);
@@ -379,16 +377,6 @@ namespace Up_Dor
             this.lblExpiring.Size = new System.Drawing.Size(152, 17);
             this.lblExpiring.Tag = 3;
             this.lblExpiring.Text = "🟡 Истекает срок: 3 товара";
-            // 
-            // lblPending
-            // 
-            this.lblPending.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPending.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
-            this.lblPending.Margin = new System.Windows.Forms.Padding(0, 3, 20, 2);
-            this.lblPending.Name = "lblPending";
-            this.lblPending.Size = new System.Drawing.Size(165, 17);
-            this.lblPending.Tag = 1;
-            this.lblPending.Text = "📦 Ожидает приёмки: 1 заказ";
             // 
             // lblOverdue
             // 
@@ -465,7 +453,6 @@ namespace Up_Dor
         // ===== СТАТУС-БАР =====
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel lblExpiring;
-        private System.Windows.Forms.ToolStripStatusLabel lblPending;
         private System.Windows.Forms.ToolStripStatusLabel lblOverdue;
         private System.Windows.Forms.ToolStripStatusLabel lblLastSale;
         private System.Windows.Forms.Button btnAutoOrders;

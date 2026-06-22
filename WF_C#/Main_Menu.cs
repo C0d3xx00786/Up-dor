@@ -33,18 +33,83 @@ namespace Up_Dor
 
         public Main_Menu()
         {
-            LoadDataFromDatabase();
             InitializeComponent();
+
             // Иконка приложения
             this.Icon = Properties.Resources.Ico;
-            // Связываем кнопку и страницу
-            btnAutoOrders.Tag = new AutomaticOrdersPage();
-            btnDeliveredGoods.Tag = new DeliveredGoodsPage();
-            btnStockManagement.Tag = new StockPage();
-            btnHistory.Tag = new HistoryPage();
-            btnComplaints.Tag = new ComplaintsPage();
 
-            SelectButton(btnStockManagement);
+            LoadDataAsync();
+        }
+
+        // Фоновая Загрузки базы данных
+        private void LoadDataAsync()
+        {
+            var loadingLabel = new Label
+            {
+                Text = "Загрузка данных...",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 16F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(120, 120, 120)
+            };
+            pnlContent.Controls.Clear();
+            pnlContent.Controls.Add(loadingLabel);
+
+            var worker = new BackgroundWorker();
+            worker.DoWork += (s, e) =>
+            {
+                // Загружаем данные из БД
+                LoadDataFromDatabase();
+            };
+            worker.RunWorkerCompleted += (s, e) =>
+            {
+                if (e.Error != null)
+                {
+                    MessageBox.Show($"Ошибка загрузки данных: {e.Error.Message}",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                btnAutoOrders.Tag = new AutomaticOrdersPage();
+                btnDeliveredGoods.Tag = new DeliveredGoodsPage();
+                btnStockManagement.Tag = new StockPage();
+                btnHistory.Tag = new HistoryPage();
+                btnComplaints.Tag = new ComplaintsPage();
+
+                SelectButton(btnStockManagement); ;
+            };
+            worker.RunWorkerAsync();
+        }
+
+        // Обновление статус бара
+        private void UpdateStatusBar()
+        {
+            if (data == null || data.Count == 0)
+            {
+                lblOverdue.Text = "🔴 Просрочено: 0 товаров";
+                lblExpiring.Text = "🟡 Истекает срок: 0 товаров";
+                return;
+            }
+
+            // Подсчет просроченных товаров (все, у кого срок годности меньше сегодня)
+            int overdueCount = data.Count(item =>
+                item.Item_Status != "sold" &&
+                item.Expiration_Date.Date < DateTime.Now.Date);
+
+            // Подсчет товаров, у которых срок истекает в ближайшие 30 дней
+            int expiringCount = data.Count(item =>
+                item.Item_Status != "sold" &&
+                item.Expiration_Date.Date >= DateTime.Now.Date &&
+                item.Expiration_Date.Date <= DateTime.Now.AddDays(30).Date);
+
+            // Обновляем label'ы
+            lblOverdue.Text = $"🔴 Просрочено: {overdueCount} товар{(overdueCount % 10 == 1 && overdueCount % 100 != 11 ? "" : "ов")}";
+            lblExpiring.Text = $"🟡 Истекает срок: {expiringCount} товар{(expiringCount % 10 == 1 && expiringCount % 100 != 11 ? "" : "ов")}";
+
+            // Меняем цвет, если есть просрочка
+            lblOverdue.ForeColor = overdueCount > 0 ?
+                Color.FromArgb(220, 50, 50) :
+                Color.FromArgb(120, 120, 120);
         }
 
         public void LoadDataFromDatabase() {
@@ -65,6 +130,8 @@ namespace Up_Dor
                         },
                         splitOn: "barcode"
                         ).ToList();
+
+                    UpdateStatusBar();
                 }
             }
             catch (Exception ex)

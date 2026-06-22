@@ -278,7 +278,10 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Pages\HistoryPage.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\HistoryPage.Designer.cs">
+      <DependentUpon>HistoryPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\StockPage.cs">
       <SubType>UserControl</SubType>
