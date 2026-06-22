@@ -18,7 +18,7 @@ namespace Up_Dor
     {
         public static List<DrugItem> data;
         // Строка для подключенния к базе данных
-        private readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
+        public static readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
 
         private Button selectedButton = null; // Выбранная страничка
 
@@ -92,16 +92,15 @@ namespace Up_Dor
         // Закрытие приложения
         private void btnClose_Click(object sender, EventArgs e)
         {
-            //var answer = MessageBox.Show("Если вы выйдите все данные будут потерянны." +
-            //    "\nВы хотите выйти?", "Завершить сеанс?",
-            //    MessageBoxButtons.YesNo,
-            //    MessageBoxIcon.Question);
+            var answer = MessageBox.Show("Вы хотите выйти из приложения?", "Завершить сеанс?",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-            //if (answer == DialogResult.Yes)
-            //{
+            if (answer == DialogResult.Yes)
+            {
                 this.Close();
-            //}
-            //return;
+            }
+            return;
         }
 
         // Скрыть
@@ -201,6 +200,21 @@ namespace Up_Dor
             }
         }
         //----------------------------------------------------
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadDataFromDatabase();
+
+            if (pnlContent.Controls.Count > 0)
+            {
+                var currentPage = pnlContent.Controls[0];
+                if (currentPage is StockPage stockPage)
+                {
+                    stockPage.UpdateDataSource();
+                }
+            }
+
+        }
     }
     // Модель для таблицы [drugs]
     public class Drug
@@ -221,7 +235,7 @@ namespace Up_Dor
     public class DrugItem
     {
         public string Uid { get; set; }
-        public string Barcode { get; set; }
+        //public string Barcode { get; set; }
         public decimal Purchase_Price { get; set; }
         public decimal Retail_Price { get; set; }
         public DateTime Expiration_Date { get; set; }
@@ -232,5 +246,16 @@ namespace Up_Dor
 
         // Важнейшее свойство: Ссылка на сам препарат, в который Dapper запишет данные
         public Drug DrugInfo { get; set; }
+
+        public string Name => DrugInfo?.Name ?? "-";
+        public string Barcode => DrugInfo?.Barcode ?? "-";
+        public string Measurement_Unit => DrugInfo?.Measurement_Unit ?? "-";
+        public int Quantity_Per_Pack => DrugInfo?.Quantity_Per_Pack ?? 0;
+        public string Manufacturer => DrugInfo?.Manufacturer ?? "-";
+        public string Pharmacologic_Group => DrugInfo?.Pharmacologic_Group ?? "-";
+        public string Storage_Location => DrugInfo?.Storage_Location ?? "-";
+        public bool Need_Recipe => DrugInfo?.Need_Recipe ?? false;
+        public bool Is_Narcotic => DrugInfo?.Is_Narcotic ?? false;
+        public bool Is_Vital => DrugInfo?.Is_Vital ?? false;
     }
 }

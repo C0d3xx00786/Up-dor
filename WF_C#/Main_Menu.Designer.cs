@@ -41,6 +41,7 @@ namespace Up_Dor
             this.btnClose = new System.Windows.Forms.Button();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.flowMenu = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblSeparator = new System.Windows.Forms.Label();
             this.btnAutoOrders = new System.Windows.Forms.Button();
             this.btnDeliveredGoods = new System.Windows.Forms.Button();
             this.btnStockManagement = new System.Windows.Forms.Button();
@@ -136,6 +137,7 @@ namespace Up_Dor
             this.btnRefresh.TabIndex = 4;
             this.btnRefresh.Text = "🔄";
             this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnMinimize
             // 
@@ -184,6 +186,7 @@ namespace Up_Dor
             // flowMenu
             // 
             this.flowMenu.BackColor = System.Drawing.Color.White;
+            this.flowMenu.Controls.Add(this.lblSeparator);
             this.flowMenu.Controls.Add(this.btnAutoOrders);
             this.flowMenu.Controls.Add(this.btnDeliveredGoods);
             this.flowMenu.Controls.Add(this.btnStockManagement);
@@ -198,13 +201,22 @@ namespace Up_Dor
             this.flowMenu.TabIndex = 1;
             this.flowMenu.WrapContents = false;
             // 
+            // lblSeparator
+            // 
+            this.lblSeparator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSeparator.Location = new System.Drawing.Point(20, 5);
+            this.lblSeparator.Margin = new System.Windows.Forms.Padding(20, 0, 3, 0);
+            this.lblSeparator.Name = "lblSeparator";
+            this.lblSeparator.Size = new System.Drawing.Size(182, 1);
+            this.lblSeparator.TabIndex = 4;
+            // 
             // btnAutoOrders
             // 
             this.btnAutoOrders.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnAutoOrders.FlatAppearance.BorderSize = 0;
             this.btnAutoOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAutoOrders.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnAutoOrders.Location = new System.Drawing.Point(3, 8);
+            this.btnAutoOrders.Location = new System.Drawing.Point(3, 9);
             this.btnAutoOrders.Name = "btnAutoOrders";
             this.btnAutoOrders.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnAutoOrders.Size = new System.Drawing.Size(210, 45);
@@ -221,7 +233,7 @@ namespace Up_Dor
             this.btnDeliveredGoods.FlatAppearance.BorderSize = 0;
             this.btnDeliveredGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeliveredGoods.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnDeliveredGoods.Location = new System.Drawing.Point(3, 59);
+            this.btnDeliveredGoods.Location = new System.Drawing.Point(3, 60);
             this.btnDeliveredGoods.Name = "btnDeliveredGoods";
             this.btnDeliveredGoods.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnDeliveredGoods.Size = this.btnAutoOrders.Size;
@@ -238,7 +250,7 @@ namespace Up_Dor
             this.btnStockManagement.FlatAppearance.BorderSize = 0;
             this.btnStockManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStockManagement.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStockManagement.Location = new System.Drawing.Point(3, 110);
+            this.btnStockManagement.Location = new System.Drawing.Point(3, 111);
             this.btnStockManagement.Name = "btnStockManagement";
             this.btnStockManagement.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnStockManagement.Size = this.btnAutoOrders.Size;
@@ -255,7 +267,7 @@ namespace Up_Dor
             this.btnHistory.FlatAppearance.BorderSize = 0;
             this.btnHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistory.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnHistory.Location = new System.Drawing.Point(3, 161);
+            this.btnHistory.Location = new System.Drawing.Point(3, 162);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnHistory.Size = this.btnAutoOrders.Size;
@@ -272,7 +284,7 @@ namespace Up_Dor
             this.btnComplaints.FlatAppearance.BorderSize = 0;
             this.btnComplaints.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnComplaints.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnComplaints.Location = new System.Drawing.Point(3, 212);
+            this.btnComplaints.Location = new System.Drawing.Point(3, 213);
             this.btnComplaints.Name = "btnComplaints";
             this.btnComplaints.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnComplaints.Size = this.btnAutoOrders.Size;
@@ -331,7 +343,7 @@ namespace Up_Dor
             this.panelWork.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelWork.Location = new System.Drawing.Point(220, 50);
             this.panelWork.Name = "panelWork";
-            this.panelWork.Padding = new System.Windows.Forms.Padding(15);
+            this.panelWork.Padding = new System.Windows.Forms.Padding(5);
             this.panelWork.Size = new System.Drawing.Size(1164, 702);
             this.panelWork.TabIndex = 2;
             // 
@@ -339,9 +351,9 @@ namespace Up_Dor
             // 
             this.pnlContent.BackColor = System.Drawing.Color.White;
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContent.Location = new System.Drawing.Point(15, 15);
+            this.pnlContent.Location = new System.Drawing.Point(5, 5);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(1134, 672);
+            this.pnlContent.Size = new System.Drawing.Size(1154, 692);
             this.pnlContent.TabIndex = 1;
             // 
             // statusStrip
@@ -462,6 +474,7 @@ namespace Up_Dor
         private Button btnHistory;
         private Button btnComplaints;
         private Button btnOpenSales;
+        private Label lblSeparator;
     }
 }
 

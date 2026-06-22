@@ -265,6 +265,12 @@
     <Compile Include="Pages\AutomaticOrdersPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pages\ChangeStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\ChangeStatus.Designer.cs">
+      <DependentUpon>ChangeStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ComplaintsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -293,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_ChangeName.resx">
       <DependentUpon>Form_ChangeName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\ChangeStatus.resx">
+      <DependentUpon>ChangeStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\StockPage.resx">
       <DependentUpon>StockPage.cs</DependentUpon>
