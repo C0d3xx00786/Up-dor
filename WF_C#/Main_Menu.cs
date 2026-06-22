@@ -1,4 +1,5 @@
 ﻿using System;
+using Dapper;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,51 +8,83 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 using WF_C_;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using WF_C_.Pages;
 
 namespace Up_Dor
 {
     public partial class Main_Menu : Form
     {
-        Change_Name change_form;
-        Sales sales;
-        private Button selectedButton = null;
+        public static List<DrugItem> data;
+        // Строка для подключенния к базе данных
+        private readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
 
-        private bool dragging = false;
-        private Point dragCursorPoint;
-        private Point dragFormPoint;
+        private Button selectedButton = null; // Выбранная страничка
 
-        private Color defaultColor = Color.White;
-        private Color hoverColor = Color.FromArgb(240, 240, 240);
-        private Color selectedColor = Color.FromArgb(227, 242, 253);
-        private Color defaultForeColor = Color.FromArgb(50, 50, 50);
-        private Color selectedForeColor = Color.FromArgb(25, 118, 210);
+        private Point dragCursorPoint; // координаты Курсора
+        private Point dragFormPoint; // координаты формы для перемещенния
+
+        private readonly Color defaultColor = Color.White;
+        private readonly Color hoverColor = Color.FromArgb(240, 240, 240);
+        private readonly Color selectedColor = Color.FromArgb(227, 242, 253);
+        private readonly Color defaultForeColor = Color.FromArgb(50, 50, 50);
+        private readonly Color selectedForeColor = Color.FromArgb(25, 118, 210);
 
         public Main_Menu()
         {
+            LoadDataFromDatabase();
             InitializeComponent();
-
+            // Иконка приложения
             this.Icon = Properties.Resources.Ico;
+            // Связываем кнопку и страницу
+            btnAutoOrders.Tag = new AutomaticOrdersPage();
+            btnDeliveredGoods.Tag = new DeliveredGoodsPage();
+            btnStockManagement.Tag = new StockPage();
+            btnHistory.Tag = new HistoryPage();
+            btnComplaints.Tag = new ComplaintsPage();
 
-            SelectButton(flowMenu.Controls[2] as Button);
+            SelectButton(btnStockManagement);
         }
 
-        private void AddMenuButton(string text, string pageKey)
-        {
-            //MenuButton btn = new MenuButton(text, pageKey, navigationManager);
-            //flowMenu.Controls.Add(btn);
-        }
+        public void LoadDataFromDatabase() {
+            string query = @"
+                SELECT di.*, d.* FROM drug_items di
+                INNER JOIN drugs d ON di.barcode = d.barcode";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    data = conn.Query<DrugItem, Drug, DrugItem>(
+                        query,
+                        (item, drug) =>
+                        {
+                            item.DrugInfo = drug; // Вкладываем объект Drug внутрь DrugItem
+                            return item;
+                        },
+                        splitOn: "barcode"
+                        ).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                var result = MessageBox.Show("Ошибка загрузки данных из БД:\n" + ex.Message + "\n\nПопробуйте позже или повторите попытку", "Ошибка", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (result == DialogResult.Retry) {
+                    LoadDataFromDatabase();
+                }
+        }}
 
         // Изменение имени
         private void lblEmployee_DoubleClick(object sender, EventArgs e)
         {
-            using (change_form = new Change_Name(lblEmployee.Tag?.ToString()))
+            using (var change_form = new Change_Name(lblEmployee.Tag?.ToString()))
             {
                 if (change_form.ShowDialog() == DialogResult.OK)
                 {
                     lblEmployee.Text = $"👤 Фармацевт: {change_form.NewName}";
                     lblEmployee.Tag = change_form.NewName;
+                    
                 }
             }
         }
@@ -59,16 +92,16 @@ namespace Up_Dor
         // Закрытие приложения
         private void btnClose_Click(object sender, EventArgs e)
         {
-            var answer = MessageBox.Show("Если вы выйдите все данные будут потерянны." +
-                "\nВы хотите выйти?", "Завершить сеанс?",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            //var answer = MessageBox.Show("Если вы выйдите все данные будут потерянны." +
+            //    "\nВы хотите выйти?", "Завершить сеанс?",
+            //    MessageBoxButtons.YesNo,
+            //    MessageBoxIcon.Question);
 
-            if (answer == DialogResult.Yes)
-            {
+            //if (answer == DialogResult.Yes)
+            //{
                 this.Close();
-            }
-            return;
+            //}
+            //return;
         }
 
         // Скрыть
@@ -81,62 +114,69 @@ namespace Up_Dor
         //----------------------------------------------------
         private void Panel_MouseDown(object sender, MouseEventArgs e)
         {
-            dragging = true;
             dragCursorPoint = Cursor.Position;
             dragFormPoint = this.Location;
         }
+
         private void Panel_MouseMove(object sender, MouseEventArgs e)
         {
-            if (dragging)
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
             {
                 Point diff = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
                 this.Location = Point.Add(dragFormPoint, new Size(diff));
             }
         }
-        private void Panel_MouseUp(object sender, MouseEventArgs e)
-        {
-            dragging = false;
-        }
         //----------------------------------------------------
 
         // Типо анимация
         //----------------------------------------------------
-        private void MouseEnter(object sender, EventArgs e)
+        private void ButtonMenuMouseEnter(object sender, EventArgs e)
         {
             Button b = sender as Button;
-            if (b.BackColor != selectedColor)
+
+            if (b != selectedButton)
                 b.BackColor = hoverColor;
         }
-        private void MouseLeave(object sender, EventArgs e)
+        private void ButtonMenuMouseLeave(object sender, EventArgs e)
         {
             Button b = sender as Button;
-            if (b.BackColor != selectedColor)
+
+            if (b != selectedButton)
                 b.BackColor = defaultColor;
         }
-        private void Click(object sender, EventArgs e)
+        private void ButtonMenuClick(object sender, EventArgs e)
         {
             Button b = sender as Button;
-            //if (!string.IsNullOrEmpty(PageKey) && NavigationManager != null)
-            //{
-            //    NavigationManager.NavigateTo(PageKey);
+
             SelectButton(b);
-            //}
         }
         private void SelectButton(Button b) {
+            lblMenuTitle.Text = b.Text.Substring(2); // Изменения названия странички
+
+            // Переход на страничку
+            if(b.Tag is UserControl page)
+            {
+                pnlContent.Controls.Clear();
+
+                page.Dock = DockStyle.Fill;
+
+                pnlContent.Controls.Add(page);
+            }
+
+            // Изменение цвета кнопки
             if (selectedButton != null)
             {
-                selectedButton.BackColor = defaultColor;
+                selectedButton.BackColor = defaultColor;// Возращение к обычному стилю
                 selectedButton.ForeColor = defaultForeColor;
                 selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             }
 
             selectedButton = b;
-            if (selectedButton != null)
-            {
-                selectedButton.BackColor = selectedColor;
-                selectedButton.ForeColor = selectedForeColor;
-                selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            }
+
+            // Стиль выбранной кнопки
+            selectedButton.BackColor = selectedColor; // Стиль выбранной кнопки
+            selectedButton.ForeColor = selectedForeColor;
+            selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         }
         //----------------------------------------------------
 
@@ -156,9 +196,41 @@ namespace Up_Dor
 
         private void btnOpenSales_Click(object sender, EventArgs e)
         {
-            sales = new Sales();
-            sales.ShowDialog();
+            using (var sales = new Sales()) {
+                sales.ShowDialog();
+            }
         }
         //----------------------------------------------------
+    }
+    // Модель для таблицы [drugs]
+    public class Drug
+    {
+        public string Barcode { get; set; }
+        public string Name { get; set; }
+        public string Measurement_Unit { get; set; }
+        public int Quantity_Per_Pack { get; set; }
+        public string Manufacturer { get; set; }
+        public bool Need_Recipe { get; set; }
+        public string Pharmacologic_Group { get; set; }
+        public bool Is_Narcotic { get; set; }
+        public bool Is_Vital { get; set; }
+        public string Storage_Location { get; set; }
+    }
+
+    // Модель для таблицы [drug_items]
+    public class DrugItem
+    {
+        public string Uid { get; set; }
+        public string Barcode { get; set; }
+        public decimal Purchase_Price { get; set; }
+        public decimal Retail_Price { get; set; }
+        public DateTime Expiration_Date { get; set; }
+        public DateTime Receipt_Date { get; set; }
+        public string Item_Status { get; set; }
+        public string Written_Off_Reason { get; set; }
+        public string Supplier_Batch { get; set; }
+
+        // Важнейшее свойство: Ссылка на сам препарат, в который Dapper запишет данные
+        public Drug DrugInfo { get; set; }
     }
 }

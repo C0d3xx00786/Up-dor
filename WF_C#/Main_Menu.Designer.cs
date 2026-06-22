@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using WF_C_.Pages;
 
 namespace Up_Dor
 {
@@ -49,7 +50,6 @@ namespace Up_Dor
             this.lblMenuTitle = new System.Windows.Forms.Label();
             this.btnOpenSales = new System.Windows.Forms.Button();
             this.panelWork = new System.Windows.Forms.Panel();
-            this.lblSectionTitle = new System.Windows.Forms.Label();
             this.pnlContent = new System.Windows.Forms.Panel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblExpiring = new System.Windows.Forms.ToolStripStatusLabel();
@@ -73,6 +73,7 @@ namespace Up_Dor
             this.panelTop.Controls.Add(this.btnRefresh);
             this.panelTop.Controls.Add(this.btnMinimize);
             this.panelTop.Controls.Add(this.btnClose);
+            this.panelTop.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
@@ -80,7 +81,6 @@ namespace Up_Dor
             this.panelTop.TabIndex = 0;
             this.panelTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseDown);
             this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseMove);
-            this.panelTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseUp);
             // 
             // lblAppIcon
             // 
@@ -94,7 +94,6 @@ namespace Up_Dor
             this.lblAppIcon.Text = "💊";
             this.lblAppIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseDown);
             this.lblAppIcon.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseMove);
-            this.lblAppIcon.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseUp);
             // 
             // lblAppTitle
             // 
@@ -108,7 +107,6 @@ namespace Up_Dor
             this.lblAppTitle.Text = "Аптека «Ап-Дор» — ИС v.1.0.0";
             this.lblAppTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseDown);
             this.lblAppTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseMove);
-            this.lblAppTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseUp);
             // 
             // lblEmployee
             // 
@@ -180,12 +178,11 @@ namespace Up_Dor
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLeft.Location = new System.Drawing.Point(0, 50);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(240, 702);
+            this.panelLeft.Size = new System.Drawing.Size(220, 702);
             this.panelLeft.TabIndex = 1;
             // 
             // flowMenu
             // 
-            this.flowMenu.AutoScroll = true;
             this.flowMenu.BackColor = System.Drawing.Color.White;
             this.flowMenu.Controls.Add(this.btnAutoOrders);
             this.flowMenu.Controls.Add(this.btnDeliveredGoods);
@@ -194,92 +191,97 @@ namespace Up_Dor
             this.flowMenu.Controls.Add(this.btnComplaints);
             this.flowMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowMenu.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowMenu.Location = new System.Drawing.Point(0, 45);
+            this.flowMenu.Location = new System.Drawing.Point(0, 60);
             this.flowMenu.Name = "flowMenu";
-            this.flowMenu.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.flowMenu.Size = new System.Drawing.Size(240, 597);
+            this.flowMenu.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.flowMenu.Size = new System.Drawing.Size(220, 582);
             this.flowMenu.TabIndex = 1;
             this.flowMenu.WrapContents = false;
             // 
             // btnAutoOrders
             // 
+            this.btnAutoOrders.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnAutoOrders.FlatAppearance.BorderSize = 0;
             this.btnAutoOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAutoOrders.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnAutoOrders.Location = new System.Drawing.Point(3, 13);
+            this.btnAutoOrders.Location = new System.Drawing.Point(3, 8);
             this.btnAutoOrders.Name = "btnAutoOrders";
             this.btnAutoOrders.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.btnAutoOrders.Size = new System.Drawing.Size(234, 45);
+            this.btnAutoOrders.Size = new System.Drawing.Size(210, 45);
             this.btnAutoOrders.TabIndex = 0;
             this.btnAutoOrders.Text = "🔄 Автозаказы";
             this.btnAutoOrders.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAutoOrders.Click += new System.EventHandler(this.Click);
-            this.btnAutoOrders.MouseEnter += new System.EventHandler(this.MouseEnter);
-            this.btnAutoOrders.MouseLeave += new System.EventHandler(this.MouseLeave);
+            this.btnAutoOrders.Click += new System.EventHandler(this.ButtonMenuClick);
+            this.btnAutoOrders.MouseEnter += new System.EventHandler(this.ButtonMenuMouseEnter);
+            this.btnAutoOrders.MouseLeave += new System.EventHandler(this.ButtonMenuMouseLeave);
             // 
             // btnDeliveredGoods
             // 
+            this.btnDeliveredGoods.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnDeliveredGoods.FlatAppearance.BorderSize = 0;
             this.btnDeliveredGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeliveredGoods.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnDeliveredGoods.Location = new System.Drawing.Point(3, 64);
+            this.btnDeliveredGoods.Location = new System.Drawing.Point(3, 59);
             this.btnDeliveredGoods.Name = "btnDeliveredGoods";
             this.btnDeliveredGoods.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnDeliveredGoods.Size = this.btnAutoOrders.Size;
             this.btnDeliveredGoods.TabIndex = 1;
             this.btnDeliveredGoods.Text = "📦 Доставленные грузы";
             this.btnDeliveredGoods.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeliveredGoods.Click += new System.EventHandler(this.Click);
-            this.btnDeliveredGoods.MouseEnter += new System.EventHandler(this.MouseEnter);
-            this.btnDeliveredGoods.MouseLeave += new System.EventHandler(this.MouseLeave);
+            this.btnDeliveredGoods.Click += new System.EventHandler(this.ButtonMenuClick);
+            this.btnDeliveredGoods.MouseEnter += new System.EventHandler(this.ButtonMenuMouseEnter);
+            this.btnDeliveredGoods.MouseLeave += new System.EventHandler(this.ButtonMenuMouseLeave);
             // 
             // btnStockManagement
             // 
+            this.btnStockManagement.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnStockManagement.FlatAppearance.BorderSize = 0;
             this.btnStockManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStockManagement.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStockManagement.Location = new System.Drawing.Point(3, 115);
+            this.btnStockManagement.Location = new System.Drawing.Point(3, 110);
             this.btnStockManagement.Name = "btnStockManagement";
             this.btnStockManagement.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnStockManagement.Size = this.btnAutoOrders.Size;
             this.btnStockManagement.TabIndex = 2;
-            this.btnStockManagement.Text = "🏪 Склад";
+            this.btnStockManagement.Text = "🏪 Товары на хранении";
             this.btnStockManagement.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStockManagement.Click += new System.EventHandler(this.Click);
-            this.btnStockManagement.MouseEnter += new System.EventHandler(this.MouseEnter);
-            this.btnStockManagement.MouseLeave += new System.EventHandler(this.MouseLeave);
+            this.btnStockManagement.Click += new System.EventHandler(this.ButtonMenuClick);
+            this.btnStockManagement.MouseEnter += new System.EventHandler(this.ButtonMenuMouseEnter);
+            this.btnStockManagement.MouseLeave += new System.EventHandler(this.ButtonMenuMouseLeave);
             // 
             // btnHistory
             // 
+            this.btnHistory.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnHistory.FlatAppearance.BorderSize = 0;
             this.btnHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistory.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnHistory.Location = new System.Drawing.Point(3, 166);
+            this.btnHistory.Location = new System.Drawing.Point(3, 161);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnHistory.Size = this.btnAutoOrders.Size;
             this.btnHistory.TabIndex = 3;
             this.btnHistory.Text = "📜 История";
             this.btnHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnHistory.Click += new System.EventHandler(this.Click);
-            this.btnHistory.MouseEnter += new System.EventHandler(this.MouseEnter);
-            this.btnHistory.MouseLeave += new System.EventHandler(this.MouseLeave);
+            this.btnHistory.Click += new System.EventHandler(this.ButtonMenuClick);
+            this.btnHistory.MouseEnter += new System.EventHandler(this.ButtonMenuMouseEnter);
+            this.btnHistory.MouseLeave += new System.EventHandler(this.ButtonMenuMouseLeave);
             // 
             // btnComplaints
             // 
+            this.btnComplaints.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnComplaints.FlatAppearance.BorderSize = 0;
             this.btnComplaints.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnComplaints.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnComplaints.Location = new System.Drawing.Point(3, 217);
+            this.btnComplaints.Location = new System.Drawing.Point(3, 212);
             this.btnComplaints.Name = "btnComplaints";
             this.btnComplaints.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.btnComplaints.Size = this.btnAutoOrders.Size;
             this.btnComplaints.TabIndex = 4;
             this.btnComplaints.Text = "⚠️ Жалобы и реакции";
             this.btnComplaints.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnComplaints.Click += new System.EventHandler(this.Click);
-            this.btnComplaints.MouseEnter += new System.EventHandler(this.MouseEnter);
-            this.btnComplaints.MouseLeave += new System.EventHandler(this.MouseLeave);
+            this.btnComplaints.Click += new System.EventHandler(this.ButtonMenuClick);
+            this.btnComplaints.MouseEnter += new System.EventHandler(this.ButtonMenuMouseEnter);
+            this.btnComplaints.MouseLeave += new System.EventHandler(this.ButtonMenuMouseLeave);
             // 
             // pnlMenuHeader
             // 
@@ -288,23 +290,25 @@ namespace Up_Dor
             this.pnlMenuHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlMenuHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlMenuHeader.Name = "pnlMenuHeader";
-            this.pnlMenuHeader.Size = new System.Drawing.Size(240, 45);
+            this.pnlMenuHeader.Size = new System.Drawing.Size(220, 60);
             this.pnlMenuHeader.TabIndex = 0;
             // 
             // lblMenuTitle
             // 
             this.lblMenuTitle.AutoSize = true;
-            this.lblMenuTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblMenuTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblMenuTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.lblMenuTitle.Location = new System.Drawing.Point(15, 15);
+            this.lblMenuTitle.Location = new System.Drawing.Point(3, 25);
             this.lblMenuTitle.Name = "lblMenuTitle";
-            this.lblMenuTitle.Size = new System.Drawing.Size(104, 15);
+            this.lblMenuTitle.Size = new System.Drawing.Size(204, 25);
             this.lblMenuTitle.TabIndex = 0;
-            this.lblMenuTitle.Text = "ГЛАВНОЕ МЕНЮ";
+            this.lblMenuTitle.Text = "Товары на хранении";
+            this.lblMenuTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnOpenSales
             // 
             this.btnOpenSales.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
+            this.btnOpenSales.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnOpenSales.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnOpenSales.FlatAppearance.BorderSize = 0;
             this.btnOpenSales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -312,7 +316,7 @@ namespace Up_Dor
             this.btnOpenSales.ForeColor = System.Drawing.Color.White;
             this.btnOpenSales.Location = new System.Drawing.Point(0, 642);
             this.btnOpenSales.Name = "btnOpenSales";
-            this.btnOpenSales.Size = new System.Drawing.Size(240, 60);
+            this.btnOpenSales.Size = new System.Drawing.Size(220, 60);
             this.btnOpenSales.TabIndex = 2;
             this.btnOpenSales.Text = "💊 Продажа";
             this.btnOpenSales.UseVisualStyleBackColor = false;
@@ -323,27 +327,13 @@ namespace Up_Dor
             // panelWork
             // 
             this.panelWork.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.panelWork.Controls.Add(this.lblSectionTitle);
             this.panelWork.Controls.Add(this.pnlContent);
             this.panelWork.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelWork.Location = new System.Drawing.Point(240, 50);
+            this.panelWork.Location = new System.Drawing.Point(220, 50);
             this.panelWork.Name = "panelWork";
             this.panelWork.Padding = new System.Windows.Forms.Padding(15);
-            this.panelWork.Size = new System.Drawing.Size(1144, 702);
+            this.panelWork.Size = new System.Drawing.Size(1164, 702);
             this.panelWork.TabIndex = 2;
-            // 
-            // lblSectionTitle
-            // 
-            this.lblSectionTitle.AutoSize = true;
-            this.lblSectionTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblSectionTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblSectionTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lblSectionTitle.Location = new System.Drawing.Point(15, 15);
-            this.lblSectionTitle.Name = "lblSectionTitle";
-            this.lblSectionTitle.Padding = new System.Windows.Forms.Padding(0, 5, 0, 15);
-            this.lblSectionTitle.Size = new System.Drawing.Size(235, 50);
-            this.lblSectionTitle.TabIndex = 0;
-            this.lblSectionTitle.Text = "Товары на хранении";
             // 
             // pnlContent
             // 
@@ -351,7 +341,7 @@ namespace Up_Dor
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(15, 15);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(1114, 672);
+            this.pnlContent.Size = new System.Drawing.Size(1134, 672);
             this.pnlContent.TabIndex = 1;
             // 
             // statusStrip
@@ -418,7 +408,7 @@ namespace Up_Dor
             this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.statusStrip);
-            this.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -432,7 +422,6 @@ namespace Up_Dor
             this.pnlMenuHeader.ResumeLayout(false);
             this.pnlMenuHeader.PerformLayout();
             this.panelWork.ResumeLayout(false);
-            this.panelWork.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -459,7 +448,6 @@ namespace Up_Dor
 
         // ===== РАБОЧАЯ ОБЛАСТЬ =====
         private System.Windows.Forms.Panel panelWork;
-        private System.Windows.Forms.Label lblSectionTitle;
         private System.Windows.Forms.Panel pnlContent;
 
         // ===== СТАТУС-БАР =====
