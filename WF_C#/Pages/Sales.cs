@@ -17,14 +17,16 @@ namespace WF_C_
     public partial class Sales : UserControl
     {
         // Корзина покупок
-        private List<CartItem> cartItems = new List<CartItem>();
-        private DrugItem currentSelectedItem = null;
+        private BindingList<CartItem> cartItems = new BindingList<CartItem>();
 
         public Sales()
         {
             InitializeComponent();
 
-            UpdateCartGrid();
+            dgvCart.AutoGenerateColumns = false;
+
+            dgvCart.DataSource = cartItems;
+
             UpdateTotal();
             txtUid.Focus();
         }
@@ -32,10 +34,10 @@ namespace WF_C_
         //Просмотр информации
         private void dgvCart_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) {
+            if (e.RowIndex >= 0 && e.RowIndex < cartItems.Count)
+            {
                 string uid = cartItems[e.RowIndex].Uid;
                 var item = FindDrugByUid(uid);
-
                 DisplayItemInfo(item);
             }
         }
@@ -43,19 +45,16 @@ namespace WF_C_
         //Удаление из корзины
         private void dgvCart_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) {
-                var answer = MessageBox.Show("Вы уверены что хотите удалить товар",
+            if (e.RowIndex >= 0 && e.RowIndex < cartItems.Count)
+            {
+                var answer = MessageBox.Show("Вы уверены что хотите удалить товар?",
                         "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (answer == DialogResult.Yes)
                 {
-                    var item = (CartItem)dgvCart.Rows[e.RowIndex].DataBoundItem;
-                    if (item != null)
-                    {
-                        cartItems.Remove(item);
-                        UpdateCartGrid();
-                        UpdateTotal();
-                    }
+                    cartItems.RemoveAt(e.RowIndex);
+                    UpdateTotal();
+                    ClearItemInfo();
                 }
             }
         }
@@ -152,7 +151,7 @@ namespace WF_C_
 
                 // Очистка корзины
                 cartItems.Clear();
-                UpdateCartGrid();
+                //UpdateCartGrid();
                 ClearItemInfo();
 
                 // Обновление статус-бара через главное меню
@@ -185,7 +184,6 @@ namespace WF_C_
             if (result == DialogResult.Yes)
             {
                 cartItems.Clear();
-                UpdateCartGrid();
                 ClearItemInfo();
             }
         }
@@ -204,7 +202,6 @@ namespace WF_C_
         // Очистка полей информации
         private void ClearItemInfo()
         {
-            currentSelectedItem = null;
             lblInfoUid.Text = "UID: -";
             lblInfoName.Text = "Название: -";
             lblInfoBarcode.Text = "Штрихкод: -";
@@ -229,7 +226,6 @@ namespace WF_C_
                 return;
             }
 
-            currentSelectedItem = item;
             lblInfoUid.Text = $"UID: {item.Uid}";
             lblInfoName.Text = $"Название: {item.Name}";
             lblInfoBarcode.Text = $"Штрихкод: {item.Barcode}";
@@ -305,22 +301,15 @@ namespace WF_C_
                 Barcode = item.Barcode,
                 Retail_Price = item.Retail_Price,
                 Expiration_Date = item.Expiration_Date,
+                Need_recipe = item.DrugInfo?.Need_Recipe ?? false,
+                Is_narcotic = item.DrugInfo?.Is_Narcotic ?? false,
                 DrugItem = item
             });
 
             DisplayItemInfo(item);
 
-            UpdateCartGrid();
             txtUid.Clear();
             txtUid.Focus();
-        }
-
-        // Обновление корзины
-        private void UpdateCartGrid()
-        {
-            dgvCart.DataSource = null;
-            dgvCart.DataSource = cartItems;
-            UpdateTotal();
         }
 
         // Обновление итоговой суммы
