@@ -75,6 +75,7 @@ namespace Up_Dor
                 btnStockManagement.Tag = new StockPage();
                 btnHistory.Tag = new HistoryPage();
                 btnComplaints.Tag = new ComplaintsPage();
+                btnOpenSales.Tag = new Sales();
 
                 SelectButton(btnStockManagement); ;
             };
@@ -82,7 +83,7 @@ namespace Up_Dor
         }
 
         // Обновление статус бара
-        private void UpdateStatusBar()
+        public void UpdateStatusBar()
         {
             if (data == null || data.Count == 0)
             {
@@ -262,8 +263,19 @@ namespace Up_Dor
 
         private void btnOpenSales_Click(object sender, EventArgs e)
         {
-            using (var sales = new Sales()) {
-                sales.ShowDialog();
+            UserControl page = btnOpenSales.Tag as UserControl;
+
+            pnlContent.Controls.Clear();
+
+            page.Dock = DockStyle.Fill;
+
+            pnlContent.Controls.Add(page);
+
+            if (selectedButton != null)
+            {
+                selectedButton.BackColor = defaultColor;// Возращение к обычному стилю
+                selectedButton.ForeColor = defaultForeColor;
+                selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             }
         }
         //----------------------------------------------------

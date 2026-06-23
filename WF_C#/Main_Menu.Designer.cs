@@ -337,7 +337,7 @@ namespace Up_Dor
             // 
             // panelWork
             // 
-            this.panelWork.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelWork.BackColor = System.Drawing.Color.Silver;
             this.panelWork.Controls.Add(this.pnlContent);
             this.panelWork.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelWork.Location = new System.Drawing.Point(220, 50);
