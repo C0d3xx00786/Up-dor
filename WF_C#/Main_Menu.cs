@@ -17,6 +17,7 @@ namespace Up_Dor
     public partial class Main_Menu : Form
     {
         public static List<DrugItem> data;
+
         // Строка для подключенния к базе данных
         public static readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
 
@@ -24,12 +25,6 @@ namespace Up_Dor
 
         private Point dragCursorPoint; // координаты Курсора
         private Point dragFormPoint; // координаты формы для перемещенния
-
-        private readonly Color defaultColor = Color.White;
-        private readonly Color hoverColor = Color.FromArgb(240, 240, 240);
-        private readonly Color selectedColor = Color.FromArgb(227, 242, 253);
-        private readonly Color defaultForeColor = Color.FromArgb(50, 50, 50);
-        private readonly Color selectedForeColor = Color.FromArgb(25, 118, 210);
 
         public Main_Menu()
         {
@@ -39,6 +34,7 @@ namespace Up_Dor
             this.Icon = Properties.Resources.Ico;
 
             LoadDataAsync();
+            UpdateStatusBar();
         }
 
         // Фоновая Загрузки базы данных
@@ -50,7 +46,7 @@ namespace Up_Dor
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Segoe UI", 16F, FontStyle.Bold),
-                ForeColor = Color.FromArgb(120, 120, 120)
+                ForeColor = AppConstants.Colors.Grey
             };
             pnlContent.Controls.Clear();
             pnlContent.Controls.Add(loadingLabel);
@@ -59,7 +55,7 @@ namespace Up_Dor
             worker.DoWork += (s, e) =>
             {
                 // Загружаем данные из БД
-                LoadDataFromDatabase();
+                RefreshAllData();
             };
             worker.RunWorkerCompleted += (s, e) =>
             {
@@ -109,39 +105,31 @@ namespace Up_Dor
 
             // Меняем цвет, если есть просрочка
             lblOverdue.ForeColor = overdueCount > 0 ?
-                Color.FromArgb(220, 50, 50) :
-                Color.FromArgb(120, 120, 120);
+                AppConstants.Colors.DangerRed :
+                AppConstants.Colors.Grey;
         }
 
-        public void LoadDataFromDatabase() {
-            string query = @"
-                SELECT di.*, d.* FROM drug_items di
-                INNER JOIN drugs d ON di.barcode = d.barcode";
-
+        public static void RefreshAllData()
+        {
             try
             {
+                string query = @"SELECT di.*, d.* FROM drug_items di 
+                        INNER JOIN drugs d ON di.barcode = d.barcode";
+
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     data = conn.Query<DrugItem, Drug, DrugItem>(
                         query,
-                        (item, drug) =>
-                        {
-                            item.DrugInfo = drug; // Вкладываем объект Drug внутрь DrugItem
-                            return item;
-                        },
+                        (item, drug) => { item.DrugInfo = drug; return item; },
                         splitOn: "barcode"
-                        ).ToList();
-
-                    UpdateStatusBar();
+                    ).ToList();
                 }
             }
             catch (Exception ex)
             {
-                var result = MessageBox.Show("Ошибка загрузки данных из БД:\n" + ex.Message + "\n\nПопробуйте позже или повторите попытку", "Ошибка", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                if (result == DialogResult.Retry) {
-                    LoadDataFromDatabase();
-                }
-        }}
+                throw new Exception($"Ошибка обновления данных: {ex.Message}", ex);
+            }
+        }
 
         // Изменение имени
         private void lblEmployee_DoubleClick(object sender, EventArgs e)
@@ -202,14 +190,14 @@ namespace Up_Dor
             Button b = sender as Button;
 
             if (b != selectedButton)
-                b.BackColor = hoverColor;
+                b.BackColor = AppConstants.Colors.Hover;
         }
         private void ButtonMenuMouseLeave(object sender, EventArgs e)
         {
             Button b = sender as Button;
 
             if (b != selectedButton)
-                b.BackColor = defaultColor;
+                b.BackColor = AppConstants.Colors.Default;
         }
         private void ButtonMenuClick(object sender, EventArgs e)
         {
@@ -230,19 +218,29 @@ namespace Up_Dor
                 pnlContent.Controls.Add(page);
             }
 
+            if (b == btnOpenSales) {
+                if (selectedButton != null)
+                {
+                    selectedButton.BackColor = AppConstants.Colors.Default;// Возращение к обычному стилю
+                    selectedButton.ForeColor = AppConstants.Colors.DefaultFore;
+                    selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+                    return;
+                }
+            }
+
             // Изменение цвета кнопки
             if (selectedButton != null)
             {
-                selectedButton.BackColor = defaultColor;// Возращение к обычному стилю
-                selectedButton.ForeColor = defaultForeColor;
+                selectedButton.BackColor = AppConstants.Colors.Default;// Возращение к обычному стилю
+                selectedButton.ForeColor = AppConstants.Colors.DefaultFore;
                 selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             }
 
             selectedButton = b;
 
             // Стиль выбранной кнопки
-            selectedButton.BackColor = selectedColor; // Стиль выбранной кнопки
-            selectedButton.ForeColor = selectedForeColor;
+            selectedButton.BackColor = AppConstants.Colors.Selected; // Стиль выбранной кнопки
+            selectedButton.ForeColor = AppConstants.Colors.SelectedFore;
             selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         }
         //----------------------------------------------------
@@ -251,46 +249,35 @@ namespace Up_Dor
         //----------------------------------------------------
         private void btnOpenSales_MouseEnter(object sender, EventArgs e)
         {
-            btnOpenSales.BackColor = Color.FromArgb(46, 204, 113);
+            btnOpenSales.BackColor = AppConstants.Colors.SuccessGreen;
             btnOpenSales.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
         }
 
         private void btnOpenSales_MouseLeave(object sender, EventArgs e)
         {
-            btnOpenSales.BackColor = Color.FromArgb(25, 118, 210);
+            btnOpenSales.BackColor = AppConstants.Colors.PrimaryBlue;
             btnOpenSales.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        }
-
-        private void btnOpenSales_Click(object sender, EventArgs e)
-        {
-            UserControl page = btnOpenSales.Tag as UserControl;
-
-            pnlContent.Controls.Clear();
-
-            page.Dock = DockStyle.Fill;
-
-            pnlContent.Controls.Add(page);
-
-            if (selectedButton != null)
-            {
-                selectedButton.BackColor = defaultColor;// Возращение к обычному стилю
-                selectedButton.ForeColor = defaultForeColor;
-                selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            }
         }
         //----------------------------------------------------
 
+        // Обноление базы данных
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            LoadDataFromDatabase();
-
-            if (pnlContent.Controls.Count > 0)
+            try
             {
-                var currentPage = pnlContent.Controls[0];
-                if (currentPage is StockPage stockPage)
+                RefreshAllData();
+                UpdateStatusBar();
+
+                // Обновляем текущую страницу
+                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is StockPage stockPage)
                 {
                     stockPage.UpdateDataSource();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

@@ -22,14 +22,21 @@ namespace WF_C_.Pages
         //Обновление Таблицы в Складе
         public void UpdateDataSource()
         {
-            dgvMedications.SuspendLayout();
+            try
+            {
+                Main_Menu.RefreshAllData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            // Обновляем таблицу
             dgvMedications.DataSource = null;
             dgvMedications.DataSource = Main_Menu.data.Where(item => item.Item_Status != "sold").ToList();
-
-            // Принудительно обновляем
             dgvMedications.Refresh();
-            dgvMedications.ResumeLayout();
         }
 
         // Колонкии для таблицы
@@ -121,40 +128,18 @@ namespace WF_C_.Pages
                 // Открываем форму изменения статуса
                 using (var changeForm = new ChangeStatusForm(selectedItem.Item_Status, selectedItem.Written_Off_Reason))
                 {
-                    if (changeForm.ShowDialog() == DialogResult.OK)
+                    if (changeForm.ShowDialog() != DialogResult.OK) return;
+
+                    if (DataHelper.UpdateDrugStatus(selectedItem.Uid, changeForm.SelectedStatus, changeForm.Comment))
                     {
-                        // Обновляем статус в базе данных
-                        string query = @"UPDATE drug_items 
-                                         SET Item_Status = @Status, 
-                                         Written_Off_Reason = @Comment 
-                                         WHERE Uid = @Uid";
-
-                        try
-                        {
-                            using (SqlConnection conn = new SqlConnection(Main_Menu.connectionString))
-                            {
-                                conn.Open();
-                                using (SqlCommand cmd = new SqlCommand(query, conn))
-                                {
-                                    cmd.Parameters.AddWithValue("@Status", changeForm.SelectedStatus);
-                                    cmd.Parameters.AddWithValue("@Comment", string.IsNullOrEmpty(changeForm.Comment) ? (object)DBNull.Value : changeForm.Comment);
-                                    cmd.Parameters.AddWithValue("@Uid",selectedItem.Uid);
-                                    cmd.ExecuteNonQuery();
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Ошибка при обновлении статуса:\n{ex.Message}",
-                                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-
-                        // Обновляем данные в памяти
                         selectedItem.Item_Status = changeForm.SelectedStatus;
                         selectedItem.Written_Off_Reason = changeForm.Comment;
-
-                        // Обновляем таблицу
                         UpdateDataSource();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при обновлении статуса", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

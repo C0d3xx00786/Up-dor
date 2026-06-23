@@ -331,7 +331,7 @@ namespace Up_Dor
             this.btnOpenSales.TabIndex = 2;
             this.btnOpenSales.Text = "💊 Продажа";
             this.btnOpenSales.UseVisualStyleBackColor = false;
-            this.btnOpenSales.Click += new System.EventHandler(this.btnOpenSales_Click);
+            this.btnOpenSales.Click += new System.EventHandler(this.ButtonMenuClick);
             this.btnOpenSales.MouseEnter += new System.EventHandler(this.btnOpenSales_MouseEnter);
             this.btnOpenSales.MouseLeave += new System.EventHandler(this.btnOpenSales_MouseLeave);
             // 

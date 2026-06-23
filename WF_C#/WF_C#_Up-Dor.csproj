@@ -250,6 +250,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataHelper.cs" />
     <Compile Include="Main_Menu.cs">
       <SubType>Form</SubType>
     </Compile>

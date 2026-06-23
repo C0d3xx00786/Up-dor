@@ -37,7 +37,7 @@ namespace WF_C_
             if (e.RowIndex >= 0 && e.RowIndex < cartItems.Count)
             {
                 string uid = cartItems[e.RowIndex].Uid;
-                var item = FindDrugByUid(uid);
+                var item = DataHelper.FindDrugByUid(uid);
                 DisplayItemInfo(item);
             }
         }
@@ -188,17 +188,6 @@ namespace WF_C_
             }
         }
 
-        // Поиск товара по UID
-        private DrugItem FindDrugByUid(string uid)
-        {
-            if (string.IsNullOrWhiteSpace(uid))
-                return null;
-
-            return Main_Menu.data?.FirstOrDefault(item =>
-                item.Uid.Equals(uid, StringComparison.OrdinalIgnoreCase) &&
-                item.Item_Status != "sold");
-        }
-
         // Очистка полей информации
         private void ClearItemInfo()
         {
@@ -261,11 +250,11 @@ namespace WF_C_
             if (string.IsNullOrEmpty(uid))
                 return;
 
-            var item = FindDrugByUid(uid);
+            var item = DataHelper.FindDrugByUid(uid);
 
             if (item == null)
             {
-                MessageBox.Show("Товар не найден или уже продан!",
+                MessageBox.Show("Товар не найден!",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -307,6 +296,7 @@ namespace WF_C_
             });
 
             DisplayItemInfo(item);
+            UpdateTotal();
 
             txtUid.Clear();
             txtUid.Focus();
