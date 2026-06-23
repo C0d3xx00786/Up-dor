@@ -1,14 +1,12 @@
-﻿using System;
-using Dapper;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 using WF_C_;
 using WF_C_.Pages;
 
@@ -16,10 +14,10 @@ namespace Up_Dor
 {
     public partial class Main_Menu : Form
     {
-        public static List<DrugItem> data;
+        public static BindingList<DrugItem> data = new BindingList<DrugItem>();
 
         // Строка для подключенния к базе данных
-        public static readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
+        public static readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
 
         private Button selectedButton = null; // Выбранная страничка
 
@@ -38,7 +36,7 @@ namespace Up_Dor
         }
 
         // Фоновая Загрузки базы данных
-        private void LoadDataAsync()
+        private async void LoadDataAsync()
         {
             var loadingLabel = new Label
             {
@@ -51,21 +49,13 @@ namespace Up_Dor
             pnlContent.Controls.Clear();
             pnlContent.Controls.Add(loadingLabel);
 
-            var worker = new BackgroundWorker();
-            worker.DoWork += (s, e) =>
-            {
-                // Загружаем данные из БД
-                RefreshAllData();
-            };
-            worker.RunWorkerCompleted += (s, e) =>
-            {
-                if (e.Error != null)
-                {
-                    MessageBox.Show($"Ошибка загрузки данных: {e.Error.Message}",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            btnRefresh.Enabled = false;
 
+            try
+            {
+                await RefreshAllData();
+
+                // Инициализируем страницы и привязываем их к тегам кнопок
                 btnAutoOrders.Tag = new AutomaticOrdersPage();
                 btnDeliveredGoods.Tag = new DeliveredGoodsPage();
                 btnStockManagement.Tag = new StockPage();
@@ -73,9 +63,25 @@ namespace Up_Dor
                 btnComplaints.Tag = new ComplaintsPage();
                 btnOpenSales.Tag = new Sales();
 
-                SelectButton(btnStockManagement); ;
-            };
-            worker.RunWorkerAsync();
+                // Убираем надпись загрузки
+                pnlContent.Controls.Remove(loadingLabel);
+
+                // Открываем страницу склада по умолчанию
+                SelectButton(btnStockManagement);
+            }
+            catch (Exception ex)
+            {
+                pnlContent.Controls.Remove(loadingLabel);
+
+                MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}\n\nПроверьте строку подключения к базе данных.",
+                                "Критическая ошибка",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnRefresh.Enabled = true;
+            }
         }
 
         // Обновление статус бара
@@ -109,25 +115,26 @@ namespace Up_Dor
                 AppConstants.Colors.Grey;
         }
 
-        public static void RefreshAllData()
+        public static async Task RefreshAllData()
         {
-            try
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = @"SELECT di.*, d.* FROM drug_items di 
-                        INNER JOIN drugs d ON di.barcode = d.barcode";
+                    INNER JOIN drugs d ON di.barcode = d.barcode";
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                var result = await conn.QueryAsync<DrugItem, Drug, DrugItem>(
+                    query,
+                    (item, drug) => { item.DrugInfo = drug; return item; },
+                    splitOn: "barcode"
+                );
+
+                var freshlist = result.ToList();
+
+                data.Clear();
+                foreach (var item in freshlist)
                 {
-                    data = conn.Query<DrugItem, Drug, DrugItem>(
-                        query,
-                        (item, drug) => { item.DrugInfo = drug; return item; },
-                        splitOn: "barcode"
-                    ).ToList();
+                    data.Add(item);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ошибка обновления данных: {ex.Message}", ex);
             }
         }
 
@@ -261,7 +268,7 @@ namespace Up_Dor
         //----------------------------------------------------
 
         // Обноление базы данных
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private async void btnRefresh_Click(object sender, EventArgs e)
         {
             try
             {
@@ -313,7 +320,7 @@ namespace Up_Dor
         // Важнейшее свойство: Ссылка на сам препарат, в который Dapper запишет данные
         public Drug DrugInfo { get; set; }
 
-        public string Name => DrugInfo?.Name ?? "-";
+        public string Name_Item => DrugInfo?.Name ?? "-";
         public string Barcode => DrugInfo?.Barcode ?? "-";
         public string Measurement_Unit => DrugInfo?.Measurement_Unit ?? "-";
         public int Quantity_Per_Pack => DrugInfo?.Quantity_Per_Pack ?? 0;

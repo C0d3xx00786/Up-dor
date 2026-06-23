@@ -12,10 +12,17 @@ namespace WF_C_.Pages
 {
     public partial class StockPage : UserControl
     {
+        private BindingSource stockBindingSource = new BindingSource();
         public StockPage()
         {
             InitializeComponent();
-            ConfigureGridColumns();
+
+            dgvMedications.AutoGenerateColumns = false;
+
+            stockBindingSource.DataSource = Main_Menu.data;
+
+            dgvMedications.DataSource = stockBindingSource;
+
             UpdateDataSource();
         }
 
@@ -25,6 +32,7 @@ namespace WF_C_.Pages
             try
             {
                 Main_Menu.RefreshAllData();
+                stockBindingSource.DataSource = Main_Menu.data.Where(item => item.Item_Status != "sold").ToList();
             }
             catch (Exception ex)
             {
@@ -32,28 +40,6 @@ namespace WF_C_.Pages
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            // Обновляем таблицу
-            dgvMedications.DataSource = null;
-            dgvMedications.DataSource = Main_Menu.data.Where(item => item.Item_Status != "sold").ToList();
-            dgvMedications.Refresh();
-        }
-
-        // Колонкии для таблицы
-        private void ConfigureGridColumns()
-        {
-            dgvMedications.AutoGenerateColumns = false;
-            dgvMedications.Columns.Clear();
-
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Uid", HeaderText = "UID (Коробка)"});
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Name", HeaderText = "Название препарата"});
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Barcode", HeaderText = "Штрихкод"});
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Retail_Price", HeaderText = "Розничная цена" });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Expiration_Date", HeaderText = "Годен до" });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Item_Status", HeaderText = "Статус" });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Measurement_Unit", HeaderText = "Единица измерения" });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Quantity_Per_Pack", HeaderText = "Кол-во в упаковке" });
-            dgvMedications.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Supplier_Batch", HeaderText = "Номер партии" });
         }
 
         private void dgvMedications_CellClick(object sender, DataGridViewCellEventArgs e)

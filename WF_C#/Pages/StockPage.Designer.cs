@@ -54,6 +54,15 @@
             this.lblPurchasePrice = new System.Windows.Forms.Label();
             this.lblUid = new System.Windows.Forms.Label();
             this.lblSeparator = new System.Windows.Forms.Label();
+            this.Uid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Name_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Retail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expiration_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Item_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Measurement_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity_Per_Pack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Supplier_Batch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlMain.SuspendLayout();
             this.pnlContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -114,6 +123,16 @@
             this.dgvMedications.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dgvMedications.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvMedications.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMedications.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Uid,
+            this.Name_Item,
+            this.Barcode,
+            this.Retail_Price,
+            this.Expiration_Date,
+            this.Item_Status,
+            this.Measurement_Unit,
+            this.Quantity_Per_Pack,
+            this.Supplier_Batch});
             this.dgvMedications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMedications.Location = new System.Drawing.Point(0, 0);
             this.dgvMedications.MultiSelect = false;
@@ -364,6 +383,69 @@
             this.lblSeparator.Size = new System.Drawing.Size(240, 2);
             this.lblSeparator.TabIndex = 0;
             // 
+            // Uid
+            // 
+            this.Uid.DataPropertyName = "Uid";
+            this.Uid.HeaderText = "UID";
+            this.Uid.Name = "Uid";
+            this.Uid.ReadOnly = true;
+            // 
+            // Name_Item
+            // 
+            this.Name_Item.DataPropertyName = "Name_Item";
+            this.Name_Item.HeaderText = "Название лекарства";
+            this.Name_Item.Name = "Name_Item";
+            this.Name_Item.ReadOnly = true;
+            // 
+            // Barcode
+            // 
+            this.Barcode.DataPropertyName = "Barcode";
+            this.Barcode.HeaderText = "Штрихкод";
+            this.Barcode.Name = "Barcode";
+            this.Barcode.ReadOnly = true;
+            // 
+            // Retail_Price
+            // 
+            this.Retail_Price.DataPropertyName = "Retail_Price";
+            this.Retail_Price.HeaderText = "Розничная цена";
+            this.Retail_Price.Name = "Retail_Price";
+            this.Retail_Price.ReadOnly = true;
+            // 
+            // Expiration_Date
+            // 
+            this.Expiration_Date.DataPropertyName = "Expiration_Date";
+            this.Expiration_Date.HeaderText = "Годен до";
+            this.Expiration_Date.Name = "Expiration_Date";
+            this.Expiration_Date.ReadOnly = true;
+            // 
+            // Item_Status
+            // 
+            this.Item_Status.DataPropertyName = "Item_Status";
+            this.Item_Status.HeaderText = "Статус";
+            this.Item_Status.Name = "Item_Status";
+            this.Item_Status.ReadOnly = true;
+            // 
+            // Measurement_Unit
+            // 
+            this.Measurement_Unit.DataPropertyName = "Measurement_Unit";
+            this.Measurement_Unit.HeaderText = "Единица измерения";
+            this.Measurement_Unit.Name = "Measurement_Unit";
+            this.Measurement_Unit.ReadOnly = true;
+            // 
+            // Quantity_Per_Pack
+            // 
+            this.Quantity_Per_Pack.DataPropertyName = "Quantity_Per_Pack";
+            this.Quantity_Per_Pack.HeaderText = "Кол-во в упаковке";
+            this.Quantity_Per_Pack.Name = "Quantity_Per_Pack";
+            this.Quantity_Per_Pack.ReadOnly = true;
+            // 
+            // Supplier_Batch
+            // 
+            this.Supplier_Batch.DataPropertyName = "Supplier_Batch";
+            this.Supplier_Batch.HeaderText = "Номер партии";
+            this.Supplier_Batch.Name = "Supplier_Batch";
+            this.Supplier_Batch.ReadOnly = true;
+            // 
             // StockPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -414,5 +496,14 @@
         private System.Windows.Forms.Label lblNarcotic;
         private System.Windows.Forms.Label lblVital;
         private System.Windows.Forms.DataGridView dgvMedications;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Uid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Name_Item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Barcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Retail_Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Expiration_Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Item_Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Measurement_Unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity_Per_Pack;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Supplier_Batch;
     }
 }

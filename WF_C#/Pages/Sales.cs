@@ -216,7 +216,7 @@ namespace WF_C_
             }
 
             lblInfoUid.Text = $"UID: {item.Uid}";
-            lblInfoName.Text = $"Название: {item.Name}";
+            lblInfoName.Text = $"Название: {item.Name_Item}";
             lblInfoBarcode.Text = $"Штрихкод: {item.Barcode}";
             lblInfoPrice.Text = $"Цена: {item.Retail_Price:F2} ₽";
             lblInfoExpiration.Text = $"Годен до: {item.Expiration_Date.ToShortDateString()}";
@@ -262,7 +262,7 @@ namespace WF_C_
             // Проверка на просрочку
             if (item.Expiration_Date < DateTime.Now)
             {
-                MessageBox.Show($"Товар {item.Name} просрочен!",
+                MessageBox.Show($"Товар {item.Name_Item} просрочен!",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -270,7 +270,7 @@ namespace WF_C_
             // Проверка статуса
             if (item.Item_Status != "in_stock")
             {
-                MessageBox.Show($"Товар {item.Name} не доступен для продажи (статус: {item.Item_Status})",
+                MessageBox.Show($"Товар {item.Name_Item} не доступен для продажи (статус: {item.Item_Status})",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -278,7 +278,7 @@ namespace WF_C_
             // Проверка на дубликат
             if (cartItems.Any(c => c.Uid == item.Uid))
             {
-                MessageBox.Show($"Товар {item.Name} уже добавлен в корзину!",
+                MessageBox.Show($"Товар {item.Name_Item} уже добавлен в корзину!",
                     "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -286,7 +286,7 @@ namespace WF_C_
             cartItems.Add(new CartItem
             {
                 Uid = item.Uid,
-                Name_item = item.Name,
+                Name_item = item.Name_Item,
                 Barcode = item.Barcode,
                 Retail_Price = item.Retail_Price,
                 Expiration_Date = item.Expiration_Date,

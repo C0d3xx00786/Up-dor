@@ -52,7 +52,7 @@
             this.lblInfoUid = new System.Windows.Forms.Label();
             this.lblInfoSeparator = new System.Windows.Forms.Label();
             this.Uid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Name_item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Name_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Retail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Expiration_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -171,7 +171,7 @@
             this.dgvCart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCart.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Uid,
-            this.Name_item,
+            this.Name_Item,
             this.Barcode,
             this.Retail_Price,
             this.Expiration_Date,
@@ -468,10 +468,10 @@
             // 
             // Name_item
             // 
-            this.Name_item.DataPropertyName = "Name_item";
-            this.Name_item.HeaderText = "Название";
-            this.Name_item.Name = "Name_item";
-            this.Name_item.ReadOnly = true;
+            this.Name_Item.DataPropertyName = "Name_item";
+            this.Name_Item.HeaderText = "Название";
+            this.Name_Item.Name = "Name_item";
+            this.Name_Item.ReadOnly = true;
             // 
             // Barcode
             // 
@@ -581,7 +581,7 @@
         private System.Windows.Forms.Button btnSell;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn Uid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name_item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Name_Item;
         private System.Windows.Forms.DataGridViewTextBoxColumn Barcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Retail_Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn Expiration_Date;
