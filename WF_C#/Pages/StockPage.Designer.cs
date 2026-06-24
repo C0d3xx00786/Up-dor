@@ -32,6 +32,15 @@
             this.pnlContent = new System.Windows.Forms.Panel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.dgvMedications = new System.Windows.Forms.DataGridView();
+            this.Uid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Name_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Retail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Expiration_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Item_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Measurement_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity_Per_Pack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Supplier_Batch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlInfo = new System.Windows.Forms.Panel();
             this.lblInfoTitle = new System.Windows.Forms.Label();
             this.pnlInfoContent = new System.Windows.Forms.Panel();
@@ -54,15 +63,6 @@
             this.lblPurchasePrice = new System.Windows.Forms.Label();
             this.lblUid = new System.Windows.Forms.Label();
             this.lblSeparator = new System.Windows.Forms.Label();
-            this.Uid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Name_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Retail_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Expiration_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Item_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Measurement_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity_Per_Pack = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Supplier_Batch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlMain.SuspendLayout();
             this.pnlContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -83,7 +83,7 @@
             this.pnlMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Padding = new System.Windows.Forms.Padding(10, 10, 10, 6);
-            this.pnlMain.Size = new System.Drawing.Size(950, 650);
+            this.pnlMain.Size = new System.Drawing.Size(1154, 692);
             this.pnlMain.TabIndex = 0;
             // 
             // pnlContent
@@ -93,7 +93,7 @@
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(10, 10);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(930, 634);
+            this.pnlContent.Size = new System.Drawing.Size(1134, 676);
             this.pnlContent.TabIndex = 0;
             // 
             // splitContainer
@@ -110,8 +110,8 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.pnlInfo);
-            this.splitContainer.Size = new System.Drawing.Size(930, 634);
-            this.splitContainer.SplitterDistance = 630;
+            this.splitContainer.Size = new System.Drawing.Size(1134, 676);
+            this.splitContainer.SplitterDistance = 800;
             this.splitContainer.TabIndex = 1;
             // 
             // dgvMedications
@@ -140,248 +140,10 @@
             this.dgvMedications.ReadOnly = true;
             this.dgvMedications.RowHeadersVisible = false;
             this.dgvMedications.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMedications.Size = new System.Drawing.Size(630, 634);
+            this.dgvMedications.Size = new System.Drawing.Size(800, 676);
             this.dgvMedications.TabIndex = 0;
             this.dgvMedications.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMedications_CellClick);
             this.dgvMedications.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMedications_CellDoubleClick);
-            // 
-            // pnlInfo
-            // 
-            this.pnlInfo.BackColor = System.Drawing.Color.White;
-            this.pnlInfo.Controls.Add(this.lblInfoTitle);
-            this.pnlInfo.Controls.Add(this.pnlInfoContent);
-            this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlInfo.Location = new System.Drawing.Point(0, 0);
-            this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Padding = new System.Windows.Forms.Padding(15);
-            this.pnlInfo.Size = new System.Drawing.Size(296, 634);
-            this.pnlInfo.TabIndex = 0;
-            // 
-            // lblInfoTitle
-            // 
-            this.lblInfoTitle.AutoSize = true;
-            this.lblInfoTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblInfoTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
-            this.lblInfoTitle.Location = new System.Drawing.Point(10, 10);
-            this.lblInfoTitle.Name = "lblInfoTitle";
-            this.lblInfoTitle.Size = new System.Drawing.Size(212, 21);
-            this.lblInfoTitle.TabIndex = 0;
-            this.lblInfoTitle.Text = "ИНФОРМАЦИЯ О ТОВАРЕ";
-            // 
-            // pnlInfoContent
-            // 
-            this.pnlInfoContent.AutoScroll = true;
-            this.pnlInfoContent.Controls.Add(this.lblVital);
-            this.pnlInfoContent.Controls.Add(this.lblNarcotic);
-            this.pnlInfoContent.Controls.Add(this.lblRecipe);
-            this.pnlInfoContent.Controls.Add(this.lblStorageLocation);
-            this.pnlInfoContent.Controls.Add(this.lblPharmacologicGroup);
-            this.pnlInfoContent.Controls.Add(this.lblManufacturer);
-            this.pnlInfoContent.Controls.Add(this.lblQuantityPerPack);
-            this.pnlInfoContent.Controls.Add(this.lblMeasurementUnit);
-            this.pnlInfoContent.Controls.Add(this.lblName);
-            this.pnlInfoContent.Controls.Add(this.lblBarcode);
-            this.pnlInfoContent.Controls.Add(this.lblWrittenOffReason);
-            this.pnlInfoContent.Controls.Add(this.lblSupplierBatch);
-            this.pnlInfoContent.Controls.Add(this.lblItemStatus);
-            this.pnlInfoContent.Controls.Add(this.lblReceiptDate);
-            this.pnlInfoContent.Controls.Add(this.lblExpirationDate);
-            this.pnlInfoContent.Controls.Add(this.lblRetailPrice);
-            this.pnlInfoContent.Controls.Add(this.lblPurchasePrice);
-            this.pnlInfoContent.Controls.Add(this.lblUid);
-            this.pnlInfoContent.Controls.Add(this.lblSeparator);
-            this.pnlInfoContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlInfoContent.Location = new System.Drawing.Point(15, 15);
-            this.pnlInfoContent.Name = "pnlInfoContent";
-            this.pnlInfoContent.Size = new System.Drawing.Size(266, 604);
-            this.pnlInfoContent.TabIndex = 1;
-            // 
-            // lblVital
-            // 
-            this.lblVital.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblVital.ForeColor = System.Drawing.Color.Black;
-            this.lblVital.Location = new System.Drawing.Point(3, 450);
-            this.lblVital.Name = "lblVital";
-            this.lblVital.Size = new System.Drawing.Size(240, 20);
-            this.lblVital.TabIndex = 18;
-            this.lblVital.Text = "Жизненно важный: -";
-            // 
-            // lblNarcotic
-            // 
-            this.lblNarcotic.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblNarcotic.ForeColor = System.Drawing.Color.Black;
-            this.lblNarcotic.Location = new System.Drawing.Point(3, 430);
-            this.lblNarcotic.Name = "lblNarcotic";
-            this.lblNarcotic.Size = new System.Drawing.Size(240, 20);
-            this.lblNarcotic.TabIndex = 17;
-            this.lblNarcotic.Text = "Наркотический: -";
-            // 
-            // lblRecipe
-            // 
-            this.lblRecipe.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblRecipe.ForeColor = System.Drawing.Color.Black;
-            this.lblRecipe.Location = new System.Drawing.Point(3, 410);
-            this.lblRecipe.Name = "lblRecipe";
-            this.lblRecipe.Size = new System.Drawing.Size(240, 20);
-            this.lblRecipe.TabIndex = 16;
-            this.lblRecipe.Text = "Требует рецепт: -";
-            // 
-            // lblStorageLocation
-            // 
-            this.lblStorageLocation.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblStorageLocation.ForeColor = System.Drawing.Color.Black;
-            this.lblStorageLocation.Location = new System.Drawing.Point(3, 390);
-            this.lblStorageLocation.Name = "lblStorageLocation";
-            this.lblStorageLocation.Size = new System.Drawing.Size(240, 20);
-            this.lblStorageLocation.TabIndex = 15;
-            this.lblStorageLocation.Text = "Место хранения: -";
-            // 
-            // lblPharmacologicGroup
-            // 
-            this.lblPharmacologicGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblPharmacologicGroup.ForeColor = System.Drawing.Color.Black;
-            this.lblPharmacologicGroup.Location = new System.Drawing.Point(3, 370);
-            this.lblPharmacologicGroup.Name = "lblPharmacologicGroup";
-            this.lblPharmacologicGroup.Size = new System.Drawing.Size(240, 20);
-            this.lblPharmacologicGroup.TabIndex = 14;
-            this.lblPharmacologicGroup.Text = "Фарм. группа: -";
-            // 
-            // lblManufacturer
-            // 
-            this.lblManufacturer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblManufacturer.ForeColor = System.Drawing.Color.Black;
-            this.lblManufacturer.Location = new System.Drawing.Point(3, 350);
-            this.lblManufacturer.Name = "lblManufacturer";
-            this.lblManufacturer.Size = new System.Drawing.Size(240, 20);
-            this.lblManufacturer.TabIndex = 13;
-            this.lblManufacturer.Text = "Производитель: -";
-            // 
-            // lblQuantityPerPack
-            // 
-            this.lblQuantityPerPack.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblQuantityPerPack.ForeColor = System.Drawing.Color.Black;
-            this.lblQuantityPerPack.Location = new System.Drawing.Point(3, 330);
-            this.lblQuantityPerPack.Name = "lblQuantityPerPack";
-            this.lblQuantityPerPack.Size = new System.Drawing.Size(240, 20);
-            this.lblQuantityPerPack.TabIndex = 12;
-            this.lblQuantityPerPack.Text = "Кол-во в упаковке: -";
-            // 
-            // lblMeasurementUnit
-            // 
-            this.lblMeasurementUnit.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblMeasurementUnit.ForeColor = System.Drawing.Color.Black;
-            this.lblMeasurementUnit.Location = new System.Drawing.Point(3, 310);
-            this.lblMeasurementUnit.Name = "lblMeasurementUnit";
-            this.lblMeasurementUnit.Size = new System.Drawing.Size(240, 20);
-            this.lblMeasurementUnit.TabIndex = 11;
-            this.lblMeasurementUnit.Text = "Единица измерения: -";
-            // 
-            // lblName
-            // 
-            this.lblName.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblName.Location = new System.Drawing.Point(3, 70);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(240, 40);
-            this.lblName.TabIndex = 10;
-            this.lblName.Text = "Название: -";
-            // 
-            // lblBarcode
-            // 
-            this.lblBarcode.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblBarcode.ForeColor = System.Drawing.Color.Black;
-            this.lblBarcode.Location = new System.Drawing.Point(3, 50);
-            this.lblBarcode.Name = "lblBarcode";
-            this.lblBarcode.Size = new System.Drawing.Size(240, 20);
-            this.lblBarcode.TabIndex = 9;
-            this.lblBarcode.Text = "Штрихкод: -";
-            // 
-            // lblWrittenOffReason
-            // 
-            this.lblWrittenOffReason.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblWrittenOffReason.ForeColor = System.Drawing.Color.Black;
-            this.lblWrittenOffReason.Location = new System.Drawing.Point(3, 270);
-            this.lblWrittenOffReason.Name = "lblWrittenOffReason";
-            this.lblWrittenOffReason.Size = new System.Drawing.Size(240, 20);
-            this.lblWrittenOffReason.TabIndex = 7;
-            this.lblWrittenOffReason.Text = "Причина списания: -";
-            // 
-            // lblSupplierBatch
-            // 
-            this.lblSupplierBatch.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblSupplierBatch.ForeColor = System.Drawing.Color.Black;
-            this.lblSupplierBatch.Location = new System.Drawing.Point(3, 290);
-            this.lblSupplierBatch.Name = "lblSupplierBatch";
-            this.lblSupplierBatch.Size = new System.Drawing.Size(240, 20);
-            this.lblSupplierBatch.TabIndex = 8;
-            this.lblSupplierBatch.Text = "Номер партии: -";
-            // 
-            // lblItemStatus
-            // 
-            this.lblItemStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblItemStatus.ForeColor = System.Drawing.Color.Black;
-            this.lblItemStatus.Location = new System.Drawing.Point(3, 250);
-            this.lblItemStatus.Name = "lblItemStatus";
-            this.lblItemStatus.Size = new System.Drawing.Size(240, 20);
-            this.lblItemStatus.TabIndex = 6;
-            this.lblItemStatus.Text = "Статус: -";
-            // 
-            // lblReceiptDate
-            // 
-            this.lblReceiptDate.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblReceiptDate.ForeColor = System.Drawing.Color.Black;
-            this.lblReceiptDate.Location = new System.Drawing.Point(3, 230);
-            this.lblReceiptDate.Name = "lblReceiptDate";
-            this.lblReceiptDate.Size = new System.Drawing.Size(240, 20);
-            this.lblReceiptDate.TabIndex = 5;
-            this.lblReceiptDate.Text = "Дата поступления: -";
-            // 
-            // lblExpirationDate
-            // 
-            this.lblExpirationDate.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblExpirationDate.ForeColor = System.Drawing.Color.Black;
-            this.lblExpirationDate.Location = new System.Drawing.Point(3, 210);
-            this.lblExpirationDate.Name = "lblExpirationDate";
-            this.lblExpirationDate.Size = new System.Drawing.Size(240, 20);
-            this.lblExpirationDate.TabIndex = 4;
-            this.lblExpirationDate.Text = "Годен до: -";
-            // 
-            // lblRetailPrice
-            // 
-            this.lblRetailPrice.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblRetailPrice.ForeColor = System.Drawing.Color.Black;
-            this.lblRetailPrice.Location = new System.Drawing.Point(3, 190);
-            this.lblRetailPrice.Name = "lblRetailPrice";
-            this.lblRetailPrice.Size = new System.Drawing.Size(240, 20);
-            this.lblRetailPrice.TabIndex = 3;
-            this.lblRetailPrice.Text = "Розничная цена: -";
-            // 
-            // lblPurchasePrice
-            // 
-            this.lblPurchasePrice.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblPurchasePrice.ForeColor = System.Drawing.Color.Black;
-            this.lblPurchasePrice.Location = new System.Drawing.Point(3, 170);
-            this.lblPurchasePrice.Name = "lblPurchasePrice";
-            this.lblPurchasePrice.Size = new System.Drawing.Size(240, 20);
-            this.lblPurchasePrice.TabIndex = 2;
-            this.lblPurchasePrice.Text = "Закупочная цена: -";
-            // 
-            // lblUid
-            // 
-            this.lblUid.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblUid.ForeColor = System.Drawing.Color.Black;
-            this.lblUid.Location = new System.Drawing.Point(3, 30);
-            this.lblUid.Name = "lblUid";
-            this.lblUid.Size = new System.Drawing.Size(240, 20);
-            this.lblUid.TabIndex = 1;
-            this.lblUid.Text = "UID: -";
-            // 
-            // lblSeparator
-            // 
-            this.lblSeparator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSeparator.Location = new System.Drawing.Point(3, 150);
-            this.lblSeparator.Name = "lblSeparator";
-            this.lblSeparator.Size = new System.Drawing.Size(240, 2);
-            this.lblSeparator.TabIndex = 0;
             // 
             // Uid
             // 
@@ -446,6 +208,244 @@
             this.Supplier_Batch.Name = "Supplier_Batch";
             this.Supplier_Batch.ReadOnly = true;
             // 
+            // pnlInfo
+            // 
+            this.pnlInfo.BackColor = System.Drawing.Color.White;
+            this.pnlInfo.Controls.Add(this.lblInfoTitle);
+            this.pnlInfo.Controls.Add(this.pnlInfoContent);
+            this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlInfo.Location = new System.Drawing.Point(0, 0);
+            this.pnlInfo.Name = "pnlInfo";
+            this.pnlInfo.Padding = new System.Windows.Forms.Padding(15);
+            this.pnlInfo.Size = new System.Drawing.Size(330, 676);
+            this.pnlInfo.TabIndex = 0;
+            // 
+            // lblInfoTitle
+            // 
+            this.lblInfoTitle.AutoSize = true;
+            this.lblInfoTitle.Font = new System.Drawing.Font("Segoe UI Black", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblInfoTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
+            this.lblInfoTitle.Location = new System.Drawing.Point(10, 10);
+            this.lblInfoTitle.Name = "lblInfoTitle";
+            this.lblInfoTitle.Size = new System.Drawing.Size(280, 28);
+            this.lblInfoTitle.TabIndex = 0;
+            this.lblInfoTitle.Text = "📋 Информация о товаре";
+            // 
+            // pnlInfoContent
+            // 
+            this.pnlInfoContent.AutoScroll = true;
+            this.pnlInfoContent.Controls.Add(this.lblVital);
+            this.pnlInfoContent.Controls.Add(this.lblNarcotic);
+            this.pnlInfoContent.Controls.Add(this.lblRecipe);
+            this.pnlInfoContent.Controls.Add(this.lblStorageLocation);
+            this.pnlInfoContent.Controls.Add(this.lblPharmacologicGroup);
+            this.pnlInfoContent.Controls.Add(this.lblManufacturer);
+            this.pnlInfoContent.Controls.Add(this.lblQuantityPerPack);
+            this.pnlInfoContent.Controls.Add(this.lblMeasurementUnit);
+            this.pnlInfoContent.Controls.Add(this.lblName);
+            this.pnlInfoContent.Controls.Add(this.lblBarcode);
+            this.pnlInfoContent.Controls.Add(this.lblWrittenOffReason);
+            this.pnlInfoContent.Controls.Add(this.lblSupplierBatch);
+            this.pnlInfoContent.Controls.Add(this.lblItemStatus);
+            this.pnlInfoContent.Controls.Add(this.lblReceiptDate);
+            this.pnlInfoContent.Controls.Add(this.lblExpirationDate);
+            this.pnlInfoContent.Controls.Add(this.lblRetailPrice);
+            this.pnlInfoContent.Controls.Add(this.lblPurchasePrice);
+            this.pnlInfoContent.Controls.Add(this.lblUid);
+            this.pnlInfoContent.Controls.Add(this.lblSeparator);
+            this.pnlInfoContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlInfoContent.Location = new System.Drawing.Point(15, 15);
+            this.pnlInfoContent.Name = "pnlInfoContent";
+            this.pnlInfoContent.Size = new System.Drawing.Size(300, 646);
+            this.pnlInfoContent.TabIndex = 1;
+            // 
+            // lblVital
+            // 
+            this.lblVital.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblVital.ForeColor = System.Drawing.Color.Black;
+            this.lblVital.Location = new System.Drawing.Point(3, 547);
+            this.lblVital.Name = "lblVital";
+            this.lblVital.Size = new System.Drawing.Size(280, 20);
+            this.lblVital.TabIndex = 18;
+            this.lblVital.Text = "Жизненно важный: -";
+            // 
+            // lblNarcotic
+            // 
+            this.lblNarcotic.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblNarcotic.ForeColor = System.Drawing.Color.Black;
+            this.lblNarcotic.Location = new System.Drawing.Point(3, 522);
+            this.lblNarcotic.Name = "lblNarcotic";
+            this.lblNarcotic.Size = new System.Drawing.Size(280, 20);
+            this.lblNarcotic.TabIndex = 17;
+            this.lblNarcotic.Text = "Наркотический: -";
+            // 
+            // lblRecipe
+            // 
+            this.lblRecipe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblRecipe.ForeColor = System.Drawing.Color.Black;
+            this.lblRecipe.Location = new System.Drawing.Point(3, 497);
+            this.lblRecipe.Name = "lblRecipe";
+            this.lblRecipe.Size = new System.Drawing.Size(280, 20);
+            this.lblRecipe.TabIndex = 16;
+            this.lblRecipe.Text = "Требует рецепт: -";
+            // 
+            // lblStorageLocation
+            // 
+            this.lblStorageLocation.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblStorageLocation.ForeColor = System.Drawing.Color.Black;
+            this.lblStorageLocation.Location = new System.Drawing.Point(3, 472);
+            this.lblStorageLocation.Name = "lblStorageLocation";
+            this.lblStorageLocation.Size = new System.Drawing.Size(280, 20);
+            this.lblStorageLocation.TabIndex = 15;
+            this.lblStorageLocation.Text = "Место хранения: -";
+            // 
+            // lblPharmacologicGroup
+            // 
+            this.lblPharmacologicGroup.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPharmacologicGroup.ForeColor = System.Drawing.Color.Black;
+            this.lblPharmacologicGroup.Location = new System.Drawing.Point(3, 447);
+            this.lblPharmacologicGroup.Name = "lblPharmacologicGroup";
+            this.lblPharmacologicGroup.Size = new System.Drawing.Size(280, 20);
+            this.lblPharmacologicGroup.TabIndex = 14;
+            this.lblPharmacologicGroup.Text = "Фарм. группа: -";
+            // 
+            // lblManufacturer
+            // 
+            this.lblManufacturer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblManufacturer.ForeColor = System.Drawing.Color.Black;
+            this.lblManufacturer.Location = new System.Drawing.Point(3, 422);
+            this.lblManufacturer.Name = "lblManufacturer";
+            this.lblManufacturer.Size = new System.Drawing.Size(280, 20);
+            this.lblManufacturer.TabIndex = 13;
+            this.lblManufacturer.Text = "Производитель: -";
+            // 
+            // lblQuantityPerPack
+            // 
+            this.lblQuantityPerPack.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblQuantityPerPack.ForeColor = System.Drawing.Color.Black;
+            this.lblQuantityPerPack.Location = new System.Drawing.Point(3, 397);
+            this.lblQuantityPerPack.Name = "lblQuantityPerPack";
+            this.lblQuantityPerPack.Size = new System.Drawing.Size(280, 20);
+            this.lblQuantityPerPack.TabIndex = 12;
+            this.lblQuantityPerPack.Text = "Кол-во в упаковке: -";
+            // 
+            // lblMeasurementUnit
+            // 
+            this.lblMeasurementUnit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblMeasurementUnit.ForeColor = System.Drawing.Color.Black;
+            this.lblMeasurementUnit.Location = new System.Drawing.Point(3, 372);
+            this.lblMeasurementUnit.Name = "lblMeasurementUnit";
+            this.lblMeasurementUnit.Size = new System.Drawing.Size(280, 20);
+            this.lblMeasurementUnit.TabIndex = 11;
+            this.lblMeasurementUnit.Text = "Единица измерения: -";
+            // 
+            // lblName
+            // 
+            this.lblName.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblName.Location = new System.Drawing.Point(3, 113);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(280, 46);
+            this.lblName.TabIndex = 10;
+            this.lblName.Text = "Название: -";
+            // 
+            // lblBarcode
+            // 
+            this.lblBarcode.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblBarcode.ForeColor = System.Drawing.Color.Black;
+            this.lblBarcode.Location = new System.Drawing.Point(3, 88);
+            this.lblBarcode.Name = "lblBarcode";
+            this.lblBarcode.Size = new System.Drawing.Size(280, 20);
+            this.lblBarcode.TabIndex = 9;
+            this.lblBarcode.Text = "Штрихкод: -";
+            // 
+            // lblWrittenOffReason
+            // 
+            this.lblWrittenOffReason.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblWrittenOffReason.ForeColor = System.Drawing.Color.Black;
+            this.lblWrittenOffReason.Location = new System.Drawing.Point(3, 322);
+            this.lblWrittenOffReason.Name = "lblWrittenOffReason";
+            this.lblWrittenOffReason.Size = new System.Drawing.Size(280, 20);
+            this.lblWrittenOffReason.TabIndex = 7;
+            this.lblWrittenOffReason.Text = "Причина списания: -";
+            // 
+            // lblSupplierBatch
+            // 
+            this.lblSupplierBatch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblSupplierBatch.ForeColor = System.Drawing.Color.Black;
+            this.lblSupplierBatch.Location = new System.Drawing.Point(3, 347);
+            this.lblSupplierBatch.Name = "lblSupplierBatch";
+            this.lblSupplierBatch.Size = new System.Drawing.Size(280, 20);
+            this.lblSupplierBatch.TabIndex = 8;
+            this.lblSupplierBatch.Text = "Номер партии: -";
+            // 
+            // lblItemStatus
+            // 
+            this.lblItemStatus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblItemStatus.ForeColor = System.Drawing.Color.Black;
+            this.lblItemStatus.Location = new System.Drawing.Point(3, 297);
+            this.lblItemStatus.Name = "lblItemStatus";
+            this.lblItemStatus.Size = new System.Drawing.Size(280, 20);
+            this.lblItemStatus.TabIndex = 6;
+            this.lblItemStatus.Text = "Статус: -";
+            // 
+            // lblReceiptDate
+            // 
+            this.lblReceiptDate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblReceiptDate.ForeColor = System.Drawing.Color.Black;
+            this.lblReceiptDate.Location = new System.Drawing.Point(3, 272);
+            this.lblReceiptDate.Name = "lblReceiptDate";
+            this.lblReceiptDate.Size = new System.Drawing.Size(280, 20);
+            this.lblReceiptDate.TabIndex = 5;
+            this.lblReceiptDate.Text = "Дата поступления: -";
+            // 
+            // lblExpirationDate
+            // 
+            this.lblExpirationDate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblExpirationDate.ForeColor = System.Drawing.Color.Black;
+            this.lblExpirationDate.Location = new System.Drawing.Point(3, 247);
+            this.lblExpirationDate.Name = "lblExpirationDate";
+            this.lblExpirationDate.Size = new System.Drawing.Size(280, 20);
+            this.lblExpirationDate.TabIndex = 4;
+            this.lblExpirationDate.Text = "Годен до: -";
+            // 
+            // lblRetailPrice
+            // 
+            this.lblRetailPrice.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblRetailPrice.ForeColor = System.Drawing.Color.Black;
+            this.lblRetailPrice.Location = new System.Drawing.Point(3, 222);
+            this.lblRetailPrice.Name = "lblRetailPrice";
+            this.lblRetailPrice.Size = new System.Drawing.Size(280, 20);
+            this.lblRetailPrice.TabIndex = 3;
+            this.lblRetailPrice.Text = "Розничная цена: -";
+            // 
+            // lblPurchasePrice
+            // 
+            this.lblPurchasePrice.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPurchasePrice.ForeColor = System.Drawing.Color.Black;
+            this.lblPurchasePrice.Location = new System.Drawing.Point(3, 197);
+            this.lblPurchasePrice.Name = "lblPurchasePrice";
+            this.lblPurchasePrice.Size = new System.Drawing.Size(280, 20);
+            this.lblPurchasePrice.TabIndex = 2;
+            this.lblPurchasePrice.Text = "Закупочная цена: -";
+            // 
+            // lblUid
+            // 
+            this.lblUid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblUid.ForeColor = System.Drawing.Color.Black;
+            this.lblUid.Location = new System.Drawing.Point(3, 63);
+            this.lblUid.Name = "lblUid";
+            this.lblUid.Size = new System.Drawing.Size(280, 20);
+            this.lblUid.TabIndex = 1;
+            this.lblUid.Text = "UID: -";
+            // 
+            // lblSeparator
+            // 
+            this.lblSeparator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSeparator.Location = new System.Drawing.Point(10, 168);
+            this.lblSeparator.Name = "lblSeparator";
+            this.lblSeparator.Size = new System.Drawing.Size(280, 2);
+            this.lblSeparator.TabIndex = 0;
+            // 
             // StockPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -453,7 +453,7 @@
             this.Controls.Add(this.pnlMain);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "StockPage";
-            this.Size = new System.Drawing.Size(950, 650);
+            this.Size = new System.Drawing.Size(1154, 692);
             this.pnlMain.ResumeLayout(false);
             this.pnlContent.ResumeLayout(false);
             this.splitContainer.Panel1.ResumeLayout(false);
@@ -496,8 +496,8 @@
         private System.Windows.Forms.Label lblNarcotic;
         private System.Windows.Forms.Label lblVital;
         private System.Windows.Forms.DataGridView dgvMedications;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Uid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Name_Item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Uid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Barcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Retail_Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn Expiration_Date;

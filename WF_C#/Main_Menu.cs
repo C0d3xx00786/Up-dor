@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -8,16 +7,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_C_;
+using System.Runtime.InteropServices;
 using WF_C_.Pages;
 
 namespace Up_Dor
 {
     public partial class Main_Menu : Form
     {
-        public static BindingList<DrugItem> data = new BindingList<DrugItem>();
-
-        // Строка для подключенния к базе данных
-        public static readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
+        //[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        //public static extern bool SetWindowText(IntPtr hWnd, string lpString);
+        //[DllImport("kernel32.dll")]
+        //public static extern IntPtr GetConsoleWindow(); Изменение названия окна
 
         private Button selectedButton = null; // Выбранная страничка
 
@@ -26,6 +26,8 @@ namespace Up_Dor
 
         public Main_Menu()
         {
+            //SetWindowText(GetConsoleWindow(), "Up-Dor"); Изменение названия окна
+
             InitializeComponent();
 
             // Иконка приложения
@@ -53,20 +55,21 @@ namespace Up_Dor
 
             try
             {
-                await RefreshAllData();
+                await Task.Run(() => Data.RefreshAllData());
 
-                // Инициализируем страницы и привязываем их к тегам кнопок
-                btnAutoOrders.Tag = new AutomaticOrdersPage();
-                btnDeliveredGoods.Tag = new DeliveredGoodsPage();
-                btnStockManagement.Tag = new StockPage();
-                btnHistory.Tag = new HistoryPage();
-                btnComplaints.Tag = new ComplaintsPage();
-                btnOpenSales.Tag = new Sales();
+                if (btnStockManagement.Tag == null)
+                {
+                    btnAutoOrders.Tag = new AutomaticOrdersPage();
+                    btnDeliveredGoods.Tag = new DeliveredGoodsPage();
+                    btnStockManagement.Tag = new StockPage();
+                    btnHistory.Tag = new HistoryPage();
+                    btnComplaints.Tag = new ComplaintsPage();
+                    btnOpenSales.Tag = new Sales();
+                }
 
                 // Убираем надпись загрузки
                 pnlContent.Controls.Remove(loadingLabel);
 
-                // Открываем страницу склада по умолчанию
                 SelectButton(btnStockManagement);
             }
             catch (Exception ex)
@@ -87,7 +90,7 @@ namespace Up_Dor
         // Обновление статус бара
         public void UpdateStatusBar()
         {
-            if (data == null || data.Count == 0)
+            if (Data.data == null || Data.data.Count == 0)
             {
                 lblOverdue.Text = "🔴 Просрочено: 0 товаров";
                 lblExpiring.Text = "🟡 Истекает срок: 0 товаров";
@@ -95,12 +98,12 @@ namespace Up_Dor
             }
 
             // Подсчет просроченных товаров (все, у кого срок годности меньше сегодня)
-            int overdueCount = data.Count(item =>
+            int overdueCount = Data.data.Count(item =>
                 item.Item_Status != "sold" &&
                 item.Expiration_Date.Date < DateTime.Now.Date);
 
             // Подсчет товаров, у которых срок истекает в ближайшие 30 дней
-            int expiringCount = data.Count(item =>
+            int expiringCount = Data.data.Count(item =>
                 item.Item_Status != "sold" &&
                 item.Expiration_Date.Date >= DateTime.Now.Date &&
                 item.Expiration_Date.Date <= DateTime.Now.AddDays(30).Date);
@@ -114,28 +117,30 @@ namespace Up_Dor
                 AppConstants.Colors.DangerRed :
                 AppConstants.Colors.Grey;
         }
-
-        public static async Task RefreshAllData()
+        // Обноление базы данных
+        private async void btnRefresh_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = @"SELECT di.*, d.* FROM drug_items di 
-                    INNER JOIN drugs d ON di.barcode = d.barcode";
+                LoadDataAsync();
+                UpdateStatusBar();
 
-                var result = await conn.QueryAsync<DrugItem, Drug, DrugItem>(
-                    query,
-                    (item, drug) => { item.DrugInfo = drug; return item; },
-                    splitOn: "barcode"
-                );
-
-                var freshlist = result.ToList();
-
-                data.Clear();
-                foreach (var item in freshlist)
+                // Обновляем текущую страницу
+                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is StockPage stockPage)
                 {
-                    data.Add(item);
+                    stockPage.UpdateDataSource();
+                }
+                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is HistoryPage historyPage)
+                {
+                    historyPage.UpdateDataSource();
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         // Изменение имени
@@ -266,69 +271,5 @@ namespace Up_Dor
             btnOpenSales.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         }
         //----------------------------------------------------
-
-        // Обноление базы данных
-        private async void btnRefresh_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                RefreshAllData();
-                UpdateStatusBar();
-
-                // Обновляем текущую страницу
-                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is StockPage stockPage)
-                {
-                    stockPage.UpdateDataSource();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-    }
-    // Модель для таблицы [drugs]
-    public class Drug
-    {
-        public string Barcode { get; set; }
-        public string Name { get; set; }
-        public string Measurement_Unit { get; set; }
-        public int Quantity_Per_Pack { get; set; }
-        public string Manufacturer { get; set; }
-        public bool Need_Recipe { get; set; }
-        public string Pharmacologic_Group { get; set; }
-        public bool Is_Narcotic { get; set; }
-        public bool Is_Vital { get; set; }
-        public string Storage_Location { get; set; }
-    }
-
-    // Модель для таблицы [drug_items]
-    public class DrugItem
-    {
-        public string Uid { get; set; }
-        //public string Barcode { get; set; }
-        public decimal Purchase_Price { get; set; }
-        public decimal Retail_Price { get; set; }
-        public DateTime Expiration_Date { get; set; }
-        public DateTime Receipt_Date { get; set; }
-        public string Item_Status { get; set; }
-        public string Written_Off_Reason { get; set; }
-        public string Supplier_Batch { get; set; }
-
-        // Важнейшее свойство: Ссылка на сам препарат, в который Dapper запишет данные
-        public Drug DrugInfo { get; set; }
-
-        public string Name_Item => DrugInfo?.Name ?? "-";
-        public string Barcode => DrugInfo?.Barcode ?? "-";
-        public string Measurement_Unit => DrugInfo?.Measurement_Unit ?? "-";
-        public int Quantity_Per_Pack => DrugInfo?.Quantity_Per_Pack ?? 0;
-        public string Manufacturer => DrugInfo?.Manufacturer ?? "-";
-        public string Pharmacologic_Group => DrugInfo?.Pharmacologic_Group ?? "-";
-        public string Storage_Location => DrugInfo?.Storage_Location ?? "-";
-        public bool Need_Recipe => DrugInfo?.Need_Recipe ?? false;
-        public bool Is_Narcotic => DrugInfo?.Is_Narcotic ?? false;
-        public bool Is_Vital => DrugInfo?.Is_Vital ?? false;
     }
 }

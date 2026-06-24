@@ -296,7 +296,7 @@ namespace Up_Dor
             // 
             // pnlMenuHeader
             // 
-            this.pnlMenuHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.pnlMenuHeader.BackColor = System.Drawing.Color.White;
             this.pnlMenuHeader.Controls.Add(this.lblMenuTitle);
             this.pnlMenuHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlMenuHeader.Location = new System.Drawing.Point(0, 0);
@@ -306,10 +306,11 @@ namespace Up_Dor
             // 
             // lblMenuTitle
             // 
+            this.lblMenuTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblMenuTitle.AutoSize = true;
             this.lblMenuTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblMenuTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.lblMenuTitle.Location = new System.Drawing.Point(3, 25);
+            this.lblMenuTitle.Location = new System.Drawing.Point(8, 25);
             this.lblMenuTitle.Name = "lblMenuTitle";
             this.lblMenuTitle.Size = new System.Drawing.Size(204, 25);
             this.lblMenuTitle.TabIndex = 0;

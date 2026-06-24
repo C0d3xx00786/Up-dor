@@ -94,14 +94,14 @@ namespace WF_C_
             if (narcoticItems.Count > 0)
             {
                 warnings += $"⚠️ ВНИМАНИЕ! В корзине {narcoticItems.Count} НАРКОТИЧЕСКИХ препаратов:\n";
-                warnings += string.Join("\n", narcoticItems.Select(i => $"  - {i.Name_item} (UID: {i.Uid})"));
+                warnings += string.Join("\n", narcoticItems.Select(i => $"  - {i.Name} (UID: {i.Uid})"));
                 warnings += "\n\nТребуется специальный учет!\n\n";
             }
 
             if (recipeItems.Count > 0)
             {
                 warnings += $"📋 В корзине {recipeItems.Count} РЕЦЕПТУРНЫХ препаратов:\n";
-                warnings += string.Join("\n", recipeItems.Select(i => $"  - {i.Name_item} (UID: {i.Uid})"));
+                warnings += string.Join("\n", recipeItems.Select(i => $"  - {i.Name} (UID: {i.Uid})"));
                 warnings += "\n\nТребуется рецепт!\n\n";
             }
 
@@ -110,7 +110,7 @@ namespace WF_C_
             if (expiredItems.Count > 0)
             {
                 warnings += $"❌ ВНИМАНИЕ! {expiredItems.Count} просроченных товаров:\n";
-                warnings += string.Join("\n", expiredItems.Select(i => $"  - {i.Name_item} (UID: {i.Uid})"));
+                warnings += string.Join("\n", expiredItems.Select(i => $"  - {i.Name} (UID: {i.Uid})"));
                 warnings += "\n\nПродажа просроченных товаров запрещена!\n\n";
             }
 
@@ -127,7 +127,7 @@ namespace WF_C_
             // Выполнение продажи
             try
             {
-                using (SqlConnection conn = new SqlConnection(Main_Menu.connectionString))
+                using (SqlConnection conn = new SqlConnection(Data.connectionString))
                 {
                     conn.Open();
 
@@ -142,16 +142,26 @@ namespace WF_C_
                 // Обновление данных в памяти
                 foreach (var item in cartItems)
                 {
-                    var drugItem = Main_Menu.data.FirstOrDefault(d => d.Uid == item.Uid);
+                    var drugItem = Data.data.FirstOrDefault(d => d.Uid == item.Uid);
                     if (drugItem != null)
                     {
                         drugItem.Item_Status = "sold";
                     }
+
+                    Data.saledata.Insert(0, new SaleHistoryItem
+                    {
+                        Uid = item.Uid,
+                        Sale_Date = DateTime.Now,
+                        Sold_Price = item.Retail_Price,
+                        Purchase_Price = item.DrugItem.Purchase_Price,
+                        Expiration_Date = item.Expiration_Date,
+                        Supplier_Batch = item.DrugItem.Supplier_Batch,
+                        DrugInfo = item.DrugItem.DrugInfo
+                    });
                 }
 
                 // Очистка корзины
                 cartItems.Clear();
-                //UpdateCartGrid();
                 ClearItemInfo();
 
                 // Обновление статус-бара через главное меню
@@ -268,7 +278,7 @@ namespace WF_C_
             }
 
             // Проверка статуса
-            if (item.Item_Status != "in_stock")
+            if (item.Item_Status != "in_stock" && item.Item_Status != "reserved")
             {
                 MessageBox.Show($"Товар {item.Name_Item} не доступен для продажи (статус: {item.Item_Status})",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -286,7 +296,7 @@ namespace WF_C_
             cartItems.Add(new CartItem
             {
                 Uid = item.Uid,
-                Name_item = item.Name_Item,
+                Name = item.Name_Item,
                 Barcode = item.Barcode,
                 Retail_Price = item.Retail_Price,
                 Expiration_Date = item.Expiration_Date,
@@ -314,7 +324,7 @@ namespace WF_C_
         public class CartItem
         {
             public string Uid { get; set; }
-            public string Name_item { get; set; }
+            public string Name { get; set; }
             public string Barcode { get; set; }
             public decimal Retail_Price { get; set; }
             public DateTime Expiration_Date { get; set; }

@@ -19,11 +19,8 @@ namespace WF_C_.Pages
 
             dgvMedications.AutoGenerateColumns = false;
 
-            stockBindingSource.DataSource = Main_Menu.data;
-
+            stockBindingSource.DataSource = Data.data;
             dgvMedications.DataSource = stockBindingSource;
-
-            UpdateDataSource();
         }
 
         //Обновление Таблицы в Складе
@@ -31,8 +28,7 @@ namespace WF_C_.Pages
         {
             try
             {
-                Main_Menu.RefreshAllData();
-                stockBindingSource.DataSource = Main_Menu.data.Where(item => item.Item_Status != "sold").ToList();
+                stockBindingSource.DataSource = Data.data.Where(item => item.Item_Status != "sold").ToList();
             }
             catch (Exception ex)
             {

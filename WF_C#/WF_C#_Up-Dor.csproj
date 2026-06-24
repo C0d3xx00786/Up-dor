@@ -279,7 +279,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Pages\HistoryPage.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Pages\HistoryPage.Designer.cs">
       <DependentUpon>HistoryPage.cs</DependentUpon>
@@ -306,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\ChangeStatus.resx">
       <DependentUpon>ChangeStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\HistoryPage.resx">
+      <DependentUpon>HistoryPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\StockPage.resx">
       <DependentUpon>StockPage.cs</DependentUpon>
