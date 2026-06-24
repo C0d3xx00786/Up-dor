@@ -18,8 +18,9 @@ namespace WF_C_.Pages
 
             // Отключаем автогенерацию, так как настроим колонки вручную в дизайнере
             dgvHistory.AutoGenerateColumns = false;
-
             dgvHistory.DataSource = Data.saledata;
+
+            UpdateTotalStats();
         }
 
         // Метод загрузки истории продаж из БД
@@ -46,31 +47,57 @@ namespace WF_C_.Pages
                 decimal totalRevenue = list.Sum(item => item.Sold_Price);
                 decimal totalProfit = list.Sum(item => item.Profit);
 
+                var monthlyList = list.Where(x => x.Sale_Date >= DateTime.Now.AddMonths(-1)).ToList();
+
+                decimal monthRevenue = monthlyList.Sum(item => item.Sold_Price);
+                decimal monthProfit = monthlyList.Sum(item => item.Profit);
+
+                // Заполняем функциональные строчки в pnlBottomStats согласно дизайнеру
                 lblTotalRevenue.Text = $"Общая выручка: {totalRevenue:F2} ₽";
-                lblTotalProfit.Text = $"Чистая прибыль: {totalProfit:F2} ₽";
+
+                lblCleanRevenue.Text = $"Чистая прибыль: {totalProfit:F2} ₽";
+                lblCleanRevenue.ForeColor = totalProfit >= 0 ? AppConstants.Colors.SuccessGreen : AppConstants.Colors.DangerRed;
+
+                lblTotalRevenueMonth.Text = $"Общая выручка за месяц: {monthRevenue:F2} ₽";
+
+                lblCleanRevenueMonth.Text = $"Чистая прибыль за месяц: {monthProfit:F2} ₽";
+                lblCleanRevenueMonth.ForeColor = monthProfit >= 0 ? AppConstants.Colors.SuccessGreen : AppConstants.Colors.DangerRed;
             }
         }
 
         // Выбор записи в таблице кликом мыши
         private void dgvHistory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && dgvHistory.Rows[e.RowIndex].DataBoundItem is SaleHistoryItem selectedItem)
             {
-                var selectedItem = (SaleHistoryItem)dgvHistory.Rows[e.RowIndex].DataBoundItem;
-
-                if (selectedItem == null) return;
-
                 lblUid.Text = $"UID: {selectedItem.Uid}";
                 lblBarcode.Text = $"Штрихкод: {selectedItem.Barcode}";
-                lblManufacturer.Text = $"Производитель: {selectedItem.Manufacturer}";
-                lblSupplierBatch.Text = $"Серия поставщика: {selectedItem.Supplier_Batch}";
-                lblExpirationDate.Text = $"Срок годности: {selectedItem.Expiration_Date:dd.MM.yyyy}";
+                lblSupplierBatch.Text = $"Номер партии: {selectedItem.Supplier_Batch ?? "-"}";
                 lblPurchasePrice.Text = $"Цена закупки: {selectedItem.Purchase_Price:F2} ₽";
                 lblSoldPriceInfo.Text = $"Цена продажи: {selectedItem.Sold_Price:F2} ₽";
+                lbldateSell.Text = $"Дата продажи: {selectedItem.Sale_Date:dd.MM.yyyy HH:mm}";
 
-                // Вычисляем прибыль конкретной упаковки
                 lblProfit.Text = $"Прибыль с пачки: {selectedItem.Profit:F2} ₽";
-                lblProfit.ForeColor = selectedItem.Profit >= 0 ? Color.Green : Color.Red;
+                lblProfit.ForeColor = selectedItem.Profit >= 0 ? AppConstants.Colors.SuccessGreen : AppConstants.Colors.DangerRed;
+
+                // Информация о препарате (используем элвис-оператор ?. для защиты от null)
+                var drug = selectedItem.DrugInfo;
+
+                lblName.Text = $"Название: {(drug?.Name ?? "-")}";
+                label1.Text = $"Производитель: {(drug?.Manufacturer ?? "-")}";
+
+                // Настройка маркеров свойств (Рецепт, Наркотический, ЖНВЛП)
+                bool needRecipe = drug?.Need_Recipe ?? false;
+                lblRecipe.Text = $"Требует рецепт: {(needRecipe ? "Да" : "Нет")}";
+                lblRecipe.ForeColor = needRecipe ? AppConstants.Colors.DangerRed : AppConstants.Colors.SuccessGreen;
+
+                bool isNarcotic = drug?.Is_Narcotic ?? false;
+                lblNarcotic.Text = $"Наркотический: {(isNarcotic ? "Да" : "Нет")}";
+                lblNarcotic.ForeColor = isNarcotic ? AppConstants.Colors.DangerRed : Color.Black;
+
+                bool isVital = drug?.Is_Vital ?? false;
+                lblVital.Text = $"Жизненно важный: {(isVital ? "Да" : "Нет")}";
+                lblVital.ForeColor = isVital ? AppConstants.Colors.WarningYellow : Color.Black;
 
             }
         }

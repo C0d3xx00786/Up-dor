@@ -57,6 +57,24 @@ namespace WF_C_
                 return false;
             }
         }
+        public static bool SellItems(IEnumerable<string> uids)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Data.connectionString))
+                {
+                    // Dapper сам развернет массив uids в корректный SQL: WHERE Uid IN ('uid1', 'uid2', ...)
+                    string query = "UPDATE drug_items SET Item_Status = 'sold' WHERE Uid IN @Uids";
+                    var result = conn.Execute(query, new { Uids = uids });
+
+                    return result > 0;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
     // Наши данные
     public class Data {
@@ -66,7 +84,7 @@ namespace WF_C_
         // Строка для подключенния к базе данных
         public static readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
 
-        public static async Task RefreshAllData()
+        public static async Task RefreshAllDataAsync()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -74,22 +92,13 @@ namespace WF_C_
                     SELECT di.*, d.* FROM drug_items di 
                     INNER JOIN drugs d ON di.barcode = d.barcode;
                 ";
-
                 // EXEC DeleteOldItems; Можно добавить чтобы удалять записи давностью 6 месяцев
 
-                var result = conn.Query<DrugItem, Drug, DrugItem>(
+                var drugsResult = (await conn.QueryAsync<DrugItem, Drug, DrugItem>(
                     query,
                     (item, drug) => { item.DrugInfo = drug; return item; },
                     splitOn: "barcode"
-                ).ToList();
-
-                data.Clear();
-                foreach (var item in result)
-                {
-                    data.Add(item);
-                }
-
-                // Обновление истории
+                )).ToList();
 
                 query = @"
                 SELECT 
@@ -98,7 +107,6 @@ namespace WF_C_
                     sh.sale_date AS Sale_Date,
                     sh.sold_price AS Sold_Price,
                     di.purchase_price AS Purchase_Price,
-                    di.expiration_date AS Expiration_Date,
                     di.supplier_batch AS Supplier_Batch,
                     d.*
                 FROM [dbo].[sales_history] sh
@@ -106,8 +114,7 @@ namespace WF_C_
                 INNER JOIN [dbo].[drugs] d ON di.barcode = d.barcode
                 ORDER BY sh.sale_date DESC";
 
-                // Используем мульти-маппинг, чтобы заполнить DrugInfo
-                var list = conn.Query<SaleHistoryItem, Drug, SaleHistoryItem>(
+                var salesResult = (await conn.QueryAsync<SaleHistoryItem, Drug, SaleHistoryItem>(
                     query,
                     (sale, drug) =>
                     {
@@ -115,14 +122,13 @@ namespace WF_C_
                         return sale;
                     },
                     splitOn: "barcode"
-                ).ToList();
+                )).ToList(); 
 
-                // Очищаем старые данные из кэша и заливаем новые
+                data.Clear();
+                foreach (var item in drugsResult) data.Add(item);
+
                 saledata.Clear();
-                foreach (var item in list)
-                {
-                    saledata.Add(item);
-                }
+                foreach (var item in salesResult) saledata.Add(item);
             }
         }
     }
@@ -231,5 +237,17 @@ namespace WF_C_
 
         // Свойство вычисления чистой прибыли
         public decimal Profit => Sold_Price - Purchase_Price;
+    }
+    // Класс для элементов корзины
+    public class CartItem
+    {
+        public string Uid { get; set; }
+        public string Name { get; set; }
+        public string Barcode { get; set; }
+        public decimal Retail_Price { get; set; }
+        public DateTime Expiration_Date { get; set; }
+        public bool Need_recipe { get; set; }
+        public bool Is_narcotic { get; set; }
+        public DrugItem DrugItem { get; set; }
     }
 }

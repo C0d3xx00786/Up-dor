@@ -82,7 +82,7 @@
             this.pnlMain.Location = new System.Drawing.Point(0, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Padding = new System.Windows.Forms.Padding(10, 10, 10, 6);
+            this.pnlMain.Padding = new System.Windows.Forms.Padding(10);
             this.pnlMain.Size = new System.Drawing.Size(1154, 692);
             this.pnlMain.TabIndex = 0;
             // 
@@ -93,7 +93,7 @@
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(10, 10);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(1134, 676);
+            this.pnlContent.Size = new System.Drawing.Size(1134, 672);
             this.pnlContent.TabIndex = 0;
             // 
             // splitContainer
@@ -110,7 +110,7 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.pnlInfo);
-            this.splitContainer.Size = new System.Drawing.Size(1134, 676);
+            this.splitContainer.Size = new System.Drawing.Size(1134, 672);
             this.splitContainer.SplitterDistance = 800;
             this.splitContainer.TabIndex = 1;
             // 
@@ -140,7 +140,7 @@
             this.dgvMedications.ReadOnly = true;
             this.dgvMedications.RowHeadersVisible = false;
             this.dgvMedications.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMedications.Size = new System.Drawing.Size(800, 676);
+            this.dgvMedications.Size = new System.Drawing.Size(800, 672);
             this.dgvMedications.TabIndex = 0;
             this.dgvMedications.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMedications_CellClick);
             this.dgvMedications.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMedications_CellDoubleClick);
@@ -217,7 +217,7 @@
             this.pnlInfo.Location = new System.Drawing.Point(0, 0);
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Padding = new System.Windows.Forms.Padding(15);
-            this.pnlInfo.Size = new System.Drawing.Size(330, 676);
+            this.pnlInfo.Size = new System.Drawing.Size(330, 672);
             this.pnlInfo.TabIndex = 0;
             // 
             // lblInfoTitle
@@ -256,7 +256,7 @@
             this.pnlInfoContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlInfoContent.Location = new System.Drawing.Point(15, 15);
             this.pnlInfoContent.Name = "pnlInfoContent";
-            this.pnlInfoContent.Size = new System.Drawing.Size(300, 646);
+            this.pnlInfoContent.Size = new System.Drawing.Size(300, 642);
             this.pnlInfoContent.TabIndex = 1;
             // 
             // lblVital

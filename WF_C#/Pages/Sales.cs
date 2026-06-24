@@ -127,14 +127,14 @@ namespace WF_C_
             // Выполнение продажи
             try
             {
-                using (SqlConnection conn = new SqlConnection(Data.connectionString))
+                var uidsToSell = cartItems.Select(item => item.Uid).ToArray();
+
+                // Вызываем метод из DataHelper
+                if (!DataHelper.SellItems(uidsToSell))
                 {
-                    conn.Open();
-
-                    var uidsToSell = cartItems.Select(item => item.Uid).ToArray();
-
-                    string query = "UPDATE drug_items SET Item_Status = 'sold' WHERE Uid IN @Uids";
-                    conn.Execute(query, new { Uids = uidsToSell });
+                    MessageBox.Show("Ошибка при сохранении продажи в базу данных.", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
                 decimal total = cartItems.Sum(item => item.Retail_Price);
@@ -167,7 +167,7 @@ namespace WF_C_
                 // Обновление статус-бара через главное меню
                 if (this.ParentForm is Main_Menu mainMenu)
                 {
-                    mainMenu.UpdateStatusBar();
+                    mainMenu.LoadDataAsync();
                 }
 
                 MessageBox.Show($"Продажа успешно завершена!\nСумма: {total:F2} ₽",
@@ -195,6 +195,7 @@ namespace WF_C_
             {
                 cartItems.Clear();
                 ClearItemInfo();
+                UpdateTotal();
             }
         }
 
@@ -206,10 +207,14 @@ namespace WF_C_
             lblInfoBarcode.Text = "Штрихкод: -";
             lblInfoPrice.Text = "Цена: -";
             lblInfoExpiration.Text = "Годен до: -";
+            lblInfoExpiration.ForeColor = Color.Black;
             lblInfoStatus.Text = "Статус: -";
             lblInfoRecipe.Text = "Требует рецепт: -";
+            lblInfoRecipe.ForeColor = Color.Black;
             lblInfoNarcotic.Text = "Наркотическое: -";
+            lblInfoNarcotic.ForeColor = Color.Black;
             lblInfoVital.Text = "Жизненно важный: -";
+            lblInfoVital.ForeColor = Color.Black;
             lblInfoManufacturer.Text = "Производитель: -";
             lblInfoGroup.Text = "Фарм. группа: -";
             lblInfoStorage.Text = "Место хранения: -";
@@ -230,20 +235,20 @@ namespace WF_C_
             lblInfoBarcode.Text = $"Штрихкод: {item.Barcode}";
             lblInfoPrice.Text = $"Цена: {item.Retail_Price:F2} ₽";
             lblInfoExpiration.Text = $"Годен до: {item.Expiration_Date.ToShortDateString()}";
-            lblInfoExpiration.ForeColor = item.Expiration_Date < DateTime.Now ? Color.Red : Color.Black;
+            lblInfoExpiration.ForeColor = item.Expiration_Date < DateTime.Now ? AppConstants.Colors.DangerRed : Color.Black;
             lblInfoStatus.Text = $"Статус: {item.Item_Status}";
 
             if (item.DrugInfo != null)
             {
                 var drug = item.DrugInfo;
                 lblInfoRecipe.Text = $"Требует рецепт: {(drug.Need_Recipe ? "ДА" : "Нет")}";
-                lblInfoRecipe.ForeColor = drug.Need_Recipe ? Color.Green : Color.Black;
+                lblInfoRecipe.ForeColor = drug.Need_Recipe ? AppConstants.Colors.DangerRed : AppConstants.Colors.SuccessGreen;
 
                 lblInfoNarcotic.Text = $"Наркотическое: {(drug.Is_Narcotic ? "ДА" : "Нет")}";
-                lblInfoNarcotic.ForeColor = drug.Is_Narcotic ? Color.Red : Color.Black;
+                lblInfoNarcotic.ForeColor = drug.Is_Narcotic ? AppConstants.Colors.DangerRed : Color.Black;
 
                 lblInfoVital.Text = $"Жизненно важный: {(drug.Is_Vital ? "ДА" : "Нет")}";
-                lblInfoVital.ForeColor = drug.Is_Vital ? Color.Red : Color.Black;
+                lblInfoVital.ForeColor = drug.Is_Vital ? AppConstants.Colors.WarningYellow : Color.Black;
 
                 lblInfoManufacturer.Text = $"Производитель: {drug.Manufacturer ?? "-"}";
                 lblInfoGroup.Text = $"Фарм. группа: {drug.Pharmacologic_Group ?? "-"}";
@@ -318,19 +323,6 @@ namespace WF_C_
             decimal total = cartItems.Sum(item => item.Retail_Price);
             lblTotal.Text = $"Итого: {total:F2} ₽";
             lblItemsCount.Text = $"Товаров: {cartItems.Count}";
-        }
-
-        // Класс для элементов корзины
-        public class CartItem
-        {
-            public string Uid { get; set; }
-            public string Name { get; set; }
-            public string Barcode { get; set; }
-            public decimal Retail_Price { get; set; }
-            public DateTime Expiration_Date { get; set; }
-            public bool Need_recipe { get; set; }
-            public bool Is_narcotic { get; set; }
-            public DrugItem DrugItem { get; set; }
         }
     }
 }

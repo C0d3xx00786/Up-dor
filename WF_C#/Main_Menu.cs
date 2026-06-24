@@ -34,28 +34,32 @@ namespace Up_Dor
             this.Icon = Properties.Resources.Ico;
 
             LoadDataAsync();
-            UpdateStatusBar();
         }
 
         // Фоновая Загрузки базы данных
-        private async void LoadDataAsync()
+        public async Task LoadDataAsync()
         {
-            var loadingLabel = new Label
+            if (pnlContent.Controls.Count == 0)
             {
-                Text = "Загрузка данных...",
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 16F, FontStyle.Bold),
-                ForeColor = AppConstants.Colors.Grey
-            };
-            pnlContent.Controls.Clear();
-            pnlContent.Controls.Add(loadingLabel);
+                var loadingLabel = new Label()
+                {
+                    Text = "Загрузка данных...",
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font("Segoe UI", 16F, FontStyle.Bold),
+                    ForeColor = AppConstants.Colors.Grey
+                };
+                pnlContent.Controls.Clear();
+                pnlContent.Controls.Add(loadingLabel);
+            }
 
             btnRefresh.Enabled = false;
 
             try
             {
-                await Task.Run(() => Data.RefreshAllData());
+                await Data.RefreshAllDataAsync();
+
+                UpdateStatusBar();
 
                 if (btnStockManagement.Tag == null)
                 {
@@ -68,13 +72,16 @@ namespace Up_Dor
                 }
 
                 // Убираем надпись загрузки
-                pnlContent.Controls.Remove(loadingLabel);
-
-                SelectButton(btnStockManagement);
+                if (pnlContent.Controls[0] is Label label)
+                {
+                    pnlContent.Controls.Remove(label);
+                    SelectButton(btnStockManagement);
+                }
             }
             catch (Exception ex)
             {
-                pnlContent.Controls.Remove(loadingLabel);
+                if (pnlContent.Controls[0] is Label label)
+                    pnlContent.Controls.Remove(label);
 
                 MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}\n\nПроверьте строку подключения к базе данных.",
                                 "Критическая ошибка",
@@ -88,13 +95,21 @@ namespace Up_Dor
         }
 
         // Обновление статус бара
-        public void UpdateStatusBar()
+        private void UpdateStatusBar()
         {
             if (Data.data == null || Data.data.Count == 0)
             {
                 lblOverdue.Text = "🔴 Просрочено: 0 товаров";
                 lblExpiring.Text = "🟡 Истекает срок: 0 товаров";
                 return;
+            }
+
+            if (Data.saledata == null || Data.saledata.Count == 0)
+            {
+                lblLastSale.Text = "🕐 Последняя продажа: --:--";
+            }
+            else {
+                lblLastSale.Text = $"🕐 Последняя продажа: {Data.saledata.First().Sale_Date:HH:mm} ({Data.saledata.First().Name_Item})";
             }
 
             // Подсчет просроченных товаров (все, у кого срок годности меньше сегодня)
@@ -123,7 +138,6 @@ namespace Up_Dor
             try
             {
                 LoadDataAsync();
-                UpdateStatusBar();
 
                 // Обновляем текущую страницу
                 if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is StockPage stockPage)

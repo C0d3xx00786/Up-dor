@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -28,7 +29,8 @@ namespace WF_C_.Pages
         {
             try
             {
-                stockBindingSource.DataSource = Data.data.Where(item => item.Item_Status != "sold").ToList();
+                var filteredList = Data.data.Where(item => item.Item_Status != "sold").ToList();
+                stockBindingSource.DataSource = new BindingList<DrugItem>(filteredList);
             }
             catch (Exception ex)
             {
@@ -90,13 +92,13 @@ namespace WF_C_.Pages
                     lblPharmacologicGroup.Text = $"Фарм. группа: {drug.Pharmacologic_Group ?? "-"}";
                     lblStorageLocation.Text = $"Место хранения: {drug.Storage_Location ?? "-"}";
                     lblRecipe.Text = $"Требует рецепт: {(drug.Need_Recipe ? "Да" : "Нет")}";
-                    lblRecipe.ForeColor = drug.Need_Recipe ? Color.Green : Color.Black;
+                    lblRecipe.ForeColor = drug.Need_Recipe ? AppConstants.Colors.DangerRed : AppConstants.Colors.SuccessGreen;
 
                     lblNarcotic.Text = $"Наркотический: {(drug.Is_Narcotic ? "Да" : "Нет")}";
                     lblNarcotic.ForeColor = drug.Is_Narcotic ? Color.Red : Color.Black;
 
                     lblVital.Text = $"Жизненно важный: {(drug.Is_Vital ? "Да" : "Нет")}";
-                    lblVital.ForeColor = drug.Is_Vital ? Color.Red : Color.Black;
+                    lblVital.ForeColor = drug.Is_Vital ? AppConstants.Colors.WarningYellow : Color.Black;
                 }
             }
         }

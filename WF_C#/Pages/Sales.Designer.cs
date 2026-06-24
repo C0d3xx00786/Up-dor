@@ -17,7 +17,7 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.pnlLeft = new System.Windows.Forms.Panel();
@@ -127,10 +127,10 @@
             // lblItemsCount
             // 
             this.lblItemsCount.AutoSize = true;
-            this.lblItemsCount.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblItemsCount.Location = new System.Drawing.Point(11, 15);
+            this.lblItemsCount.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblItemsCount.Location = new System.Drawing.Point(10, 12);
             this.lblItemsCount.Name = "lblItemsCount";
-            this.lblItemsCount.Size = new System.Drawing.Size(87, 20);
+            this.lblItemsCount.Size = new System.Drawing.Size(110, 25);
             this.lblItemsCount.TabIndex = 1;
             this.lblItemsCount.Text = "Товаров: 0";
             // 
@@ -140,11 +140,11 @@
             this.btnClearCart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.btnClearCart.FlatAppearance.BorderSize = 0;
             this.btnClearCart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearCart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnClearCart.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnClearCart.ForeColor = System.Drawing.Color.White;
-            this.btnClearCart.Location = new System.Drawing.Point(700, 5);
+            this.btnClearCart.Location = new System.Drawing.Point(686, 5);
             this.btnClearCart.Name = "btnClearCart";
-            this.btnClearCart.Size = new System.Drawing.Size(90, 42);
+            this.btnClearCart.Size = new System.Drawing.Size(104, 42);
             this.btnClearCart.TabIndex = 0;
             this.btnClearCart.Text = "Очистить";
             this.btnClearCart.UseVisualStyleBackColor = false;
@@ -213,8 +213,8 @@
             // Retail_Price
             // 
             this.Retail_Price.DataPropertyName = "Retail_Price";
-            dataGridViewCellStyle2.Format = "F2";
-            this.Retail_Price.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Format = "F2";
+            this.Retail_Price.DefaultCellStyle = dataGridViewCellStyle1;
             this.Retail_Price.HeaderText = "Цена";
             this.Retail_Price.Name = "Retail_Price";
             this.Retail_Price.ReadOnly = true;
@@ -261,7 +261,7 @@
             this.btnSell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.btnSell.FlatAppearance.BorderSize = 0;
             this.btnSell.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSell.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnSell.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnSell.ForeColor = System.Drawing.Color.White;
             this.btnSell.Location = new System.Drawing.Point(640, 10);
             this.btnSell.Name = "btnSell";
@@ -274,11 +274,11 @@
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
             this.lblTotal.Location = new System.Drawing.Point(10, 20);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(119, 30);
+            this.lblTotal.Size = new System.Drawing.Size(133, 32);
             this.lblTotal.TabIndex = 0;
             this.lblTotal.Text = "Итого: 0 ₽";
             // 
