@@ -1,13 +1,9 @@
-﻿using Dapper;
-using System;
-using System.ComponentModel;
-using System.Data.SqlClient;
+﻿using System;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_C_;
-using System.Runtime.InteropServices;
 using WF_C_.Pages;
 
 namespace Up_Dor
@@ -58,7 +54,6 @@ namespace Up_Dor
             try
             {
                 await Data.RefreshAllDataAsync();
-
                 UpdateStatusBar();
 
                 if (btnStockManagement.Tag == null)
@@ -95,7 +90,7 @@ namespace Up_Dor
         }
 
         // Обновление статус бара
-        private void UpdateStatusBar()
+        public void UpdateStatusBar()
         {
             if (Data.data == null || Data.data.Count == 0)
             {
@@ -135,26 +130,27 @@ namespace Up_Dor
         // Обноление базы данных
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
+            btnRefresh.Enabled = false;
             try
             {
-                LoadDataAsync();
+                await LoadDataAsync();
 
                 // Обновляем текущую страницу
-                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is StockPage stockPage)
-                {
-                    stockPage.UpdateDataSource();
-                }
-                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is HistoryPage historyPage)
-                {
-                    historyPage.UpdateDataSource();
-                }
+                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is StockPage stockPage) stockPage.UpdateDataSource();
+                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is HistoryPage historyPage) historyPage.UpdateDataSource();
+                if (pnlContent.Controls.Count > 0 && pnlContent.Controls[0] is ComplaintsPage complaintsPage) complaintsPage.UpdateDataSource();
+
+                UpdateStatusBar();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            finally
+            {
+                btnRefresh.Enabled = true;
+            }
         }
 
         // Изменение имени
@@ -250,6 +246,7 @@ namespace Up_Dor
                     selectedButton.BackColor = AppConstants.Colors.Default;// Возращение к обычному стилю
                     selectedButton.ForeColor = AppConstants.Colors.DefaultFore;
                     selectedButton.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+
                     return;
                 }
             }

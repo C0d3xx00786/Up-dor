@@ -1,12 +1,7 @@
-﻿using Dapper;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Up_Dor;
 
 namespace WF_C_.Pages
 {
@@ -89,15 +84,15 @@ namespace WF_C_.Pages
                 // Настройка маркеров свойств (Рецепт, Наркотический, ЖНВЛП)
                 bool needRecipe = drug?.Need_Recipe ?? false;
                 lblRecipe.Text = $"Требует рецепт: {(needRecipe ? "Да" : "Нет")}";
-                lblRecipe.ForeColor = needRecipe ? AppConstants.Colors.DangerRed : AppConstants.Colors.SuccessGreen;
+                lblRecipe.ForeColor = AppConstants.GetColorNeedRecipe(needRecipe);
 
                 bool isNarcotic = drug?.Is_Narcotic ?? false;
                 lblNarcotic.Text = $"Наркотический: {(isNarcotic ? "Да" : "Нет")}";
-                lblNarcotic.ForeColor = isNarcotic ? AppConstants.Colors.DangerRed : Color.Black;
+                lblNarcotic.ForeColor = AppConstants.GetColorIsNarcotic(isNarcotic);
 
                 bool isVital = drug?.Is_Vital ?? false;
                 lblVital.Text = $"Жизненно важный: {(isVital ? "Да" : "Нет")}";
-                lblVital.ForeColor = isVital ? AppConstants.Colors.WarningYellow : Color.Black;
+                lblVital.ForeColor = AppConstants.GetColorIsVital(isVital);
 
             }
         }

@@ -1,14 +1,8 @@
-﻿using Dapper;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Up_Dor;
 
@@ -105,15 +99,6 @@ namespace WF_C_
                 warnings += "\n\nТребуется рецепт!\n\n";
             }
 
-            // Проверка на просрочку
-            var expiredItems = cartItems.Where(item => item.Expiration_Date < DateTime.Now).ToList();
-            if (expiredItems.Count > 0)
-            {
-                warnings += $"❌ ВНИМАНИЕ! {expiredItems.Count} просроченных товаров:\n";
-                warnings += string.Join("\n", expiredItems.Select(i => $"  - {i.Name} (UID: {i.Uid})"));
-                warnings += "\n\nПродажа просроченных товаров запрещена!\n\n";
-            }
-
             if (!string.IsNullOrEmpty(warnings))
             {
                 warnings += "Продолжить продажу?";
@@ -139,27 +124,6 @@ namespace WF_C_
 
                 decimal total = cartItems.Sum(item => item.Retail_Price);
 
-                // Обновление данных в памяти
-                foreach (var item in cartItems)
-                {
-                    var drugItem = Data.data.FirstOrDefault(d => d.Uid == item.Uid);
-                    if (drugItem != null)
-                    {
-                        drugItem.Item_Status = "sold";
-                    }
-
-                    Data.saledata.Insert(0, new SaleHistoryItem
-                    {
-                        Uid = item.Uid,
-                        Sale_Date = DateTime.Now,
-                        Sold_Price = item.Retail_Price,
-                        Purchase_Price = item.DrugItem.Purchase_Price,
-                        Expiration_Date = item.Expiration_Date,
-                        Supplier_Batch = item.DrugItem.Supplier_Batch,
-                        DrugInfo = item.DrugItem.DrugInfo
-                    });
-                }
-
                 // Очистка корзины
                 cartItems.Clear();
                 ClearItemInfo();
@@ -167,7 +131,7 @@ namespace WF_C_
                 // Обновление статус-бара через главное меню
                 if (this.ParentForm is Main_Menu mainMenu)
                 {
-                    mainMenu.LoadDataAsync();
+                    mainMenu.UpdateStatusBar();
                 }
 
                 MessageBox.Show($"Продажа успешно завершена!\nСумма: {total:F2} ₽",
@@ -242,13 +206,13 @@ namespace WF_C_
             {
                 var drug = item.DrugInfo;
                 lblInfoRecipe.Text = $"Требует рецепт: {(drug.Need_Recipe ? "ДА" : "Нет")}";
-                lblInfoRecipe.ForeColor = drug.Need_Recipe ? AppConstants.Colors.DangerRed : AppConstants.Colors.SuccessGreen;
+                lblInfoRecipe.ForeColor = AppConstants.GetColorNeedRecipe(drug.Need_Recipe);
 
                 lblInfoNarcotic.Text = $"Наркотическое: {(drug.Is_Narcotic ? "ДА" : "Нет")}";
-                lblInfoNarcotic.ForeColor = drug.Is_Narcotic ? AppConstants.Colors.DangerRed : Color.Black;
+                lblInfoNarcotic.ForeColor = AppConstants.GetColorIsNarcotic(drug.Is_Narcotic);
 
                 lblInfoVital.Text = $"Жизненно важный: {(drug.Is_Vital ? "ДА" : "Нет")}";
-                lblInfoVital.ForeColor = drug.Is_Vital ? AppConstants.Colors.WarningYellow : Color.Black;
+                lblInfoVital.ForeColor = AppConstants.GetColorIsVital(drug.Is_Vital);
 
                 lblInfoManufacturer.Text = $"Производитель: {drug.Manufacturer ?? "-"}";
                 lblInfoGroup.Text = $"Фарм. группа: {drug.Pharmacologic_Group ?? "-"}";

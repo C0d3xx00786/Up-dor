@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Windows.Forms;
-using Up_Dor;
 
 namespace WF_C_.Pages
 {
@@ -21,6 +17,7 @@ namespace WF_C_.Pages
             dgvMedications.AutoGenerateColumns = false;
 
             stockBindingSource.DataSource = Data.data;
+            stockBindingSource.Filter = "Item_Status != 'sold'";
             dgvMedications.DataSource = stockBindingSource;
         }
 
@@ -29,14 +26,13 @@ namespace WF_C_.Pages
         {
             try
             {
-                var filteredList = Data.data.Where(item => item.Item_Status != "sold").ToList();
-                stockBindingSource.DataSource = new BindingList<DrugItem>(filteredList);
+                // Просто обновляем BindingSource
+                stockBindingSource.Filter = "Item_Status != 'sold'";
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
         }
 
@@ -56,29 +52,8 @@ namespace WF_C_.Pages
                 lblSupplierBatch.Text = $"Номер партии: {selectedItem.Supplier_Batch ?? "-"}";
                 lblWrittenOffReason.Text = $"Причина списания: {selectedItem.Written_Off_Reason ?? "-"}";
                 lblItemStatus.Text = $"Статус: {selectedItem.Item_Status}";
-                switch (selectedItem.Item_Status)
-                {
-                    case "in_stock":
-                        lblItemStatus.ForeColor = Color.Black;
-                        lblWrittenOffReason.ForeColor = Color.Black;
-                        break;
-                    case "sold":
-                        lblItemStatus.ForeColor = Color.Green;
-                        lblWrittenOffReason.ForeColor = Color.Black;
-                        break;
-                    case "written_off":
-                        lblItemStatus.ForeColor = Color.Red;
-                        lblWrittenOffReason.ForeColor = Color.Red;
-                        break;
-                    case "quarantined":
-                        lblItemStatus.ForeColor = Color.Blue;
-                        lblWrittenOffReason.ForeColor = Color.Black;
-                        break;
-                    case "reserved":
-                        lblItemStatus.ForeColor = Color.OrangeRed;
-                        lblWrittenOffReason.ForeColor = Color.OrangeRed;
-                        break;
-                }
+                lblItemStatus.ForeColor = AppConstants.GetColor(selectedItem.Item_Status);
+                lblWrittenOffReason.ForeColor = AppConstants.GetColor(selectedItem.Item_Status);
 
                 // Информация о Drug (если есть)
                 if (selectedItem.DrugInfo != null)
@@ -92,13 +67,13 @@ namespace WF_C_.Pages
                     lblPharmacologicGroup.Text = $"Фарм. группа: {drug.Pharmacologic_Group ?? "-"}";
                     lblStorageLocation.Text = $"Место хранения: {drug.Storage_Location ?? "-"}";
                     lblRecipe.Text = $"Требует рецепт: {(drug.Need_Recipe ? "Да" : "Нет")}";
-                    lblRecipe.ForeColor = drug.Need_Recipe ? AppConstants.Colors.DangerRed : AppConstants.Colors.SuccessGreen;
+                    lblRecipe.ForeColor = AppConstants.GetColorNeedRecipe(drug.Need_Recipe);
 
                     lblNarcotic.Text = $"Наркотический: {(drug.Is_Narcotic ? "Да" : "Нет")}";
-                    lblNarcotic.ForeColor = drug.Is_Narcotic ? Color.Red : Color.Black;
+                    lblNarcotic.ForeColor = AppConstants.GetColorIsNarcotic(drug.Is_Narcotic);
 
                     lblVital.Text = $"Жизненно важный: {(drug.Is_Vital ? "Да" : "Нет")}";
-                    lblVital.ForeColor = drug.Is_Vital ? AppConstants.Colors.WarningYellow : Color.Black;
+                    lblVital.ForeColor = AppConstants.GetColorIsVital(drug.Is_Vital);
                 }
             }
         }
@@ -107,7 +82,16 @@ namespace WF_C_.Pages
         {
             if (e.RowIndex >= 0)
             {
-                var selectedItem = (DrugItem)dgvMedications.Rows[e.RowIndex].DataBoundItem;
+                string uid = dgvMedications.Rows[e.RowIndex].Cells["Uid"].Value?.ToString();
+
+                if (string.IsNullOrEmpty(uid))
+                    return;
+
+                // Берем актуальные данные из Data.data
+                var selectedItem = Data.data.FirstOrDefault(item => item.Uid == uid);
+
+                if (selectedItem == null)
+                    return;
 
                 // Открываем форму изменения статуса
                 using (var changeForm = new ChangeStatusForm(selectedItem.Item_Status, selectedItem.Written_Off_Reason))
@@ -116,8 +100,6 @@ namespace WF_C_.Pages
 
                     if (DataHelper.UpdateDrugStatus(selectedItem.Uid, changeForm.SelectedStatus, changeForm.Comment))
                     {
-                        selectedItem.Item_Status = changeForm.SelectedStatus;
-                        selectedItem.Written_Off_Reason = changeForm.Comment;
                         UpdateDataSource();
                     }
                     else

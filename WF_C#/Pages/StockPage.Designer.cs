@@ -265,7 +265,7 @@
             this.lblVital.ForeColor = System.Drawing.Color.Black;
             this.lblVital.Location = new System.Drawing.Point(3, 547);
             this.lblVital.Name = "lblVital";
-            this.lblVital.Size = new System.Drawing.Size(280, 20);
+            this.lblVital.Size = new System.Drawing.Size(280, 25);
             this.lblVital.TabIndex = 18;
             this.lblVital.Text = "Жизненно важный: -";
             // 
@@ -275,7 +275,7 @@
             this.lblNarcotic.ForeColor = System.Drawing.Color.Black;
             this.lblNarcotic.Location = new System.Drawing.Point(3, 522);
             this.lblNarcotic.Name = "lblNarcotic";
-            this.lblNarcotic.Size = new System.Drawing.Size(280, 20);
+            this.lblNarcotic.Size = new System.Drawing.Size(280, 25);
             this.lblNarcotic.TabIndex = 17;
             this.lblNarcotic.Text = "Наркотический: -";
             // 
@@ -285,7 +285,7 @@
             this.lblRecipe.ForeColor = System.Drawing.Color.Black;
             this.lblRecipe.Location = new System.Drawing.Point(3, 497);
             this.lblRecipe.Name = "lblRecipe";
-            this.lblRecipe.Size = new System.Drawing.Size(280, 20);
+            this.lblRecipe.Size = new System.Drawing.Size(280, 25);
             this.lblRecipe.TabIndex = 16;
             this.lblRecipe.Text = "Требует рецепт: -";
             // 
@@ -295,7 +295,7 @@
             this.lblStorageLocation.ForeColor = System.Drawing.Color.Black;
             this.lblStorageLocation.Location = new System.Drawing.Point(3, 472);
             this.lblStorageLocation.Name = "lblStorageLocation";
-            this.lblStorageLocation.Size = new System.Drawing.Size(280, 20);
+            this.lblStorageLocation.Size = new System.Drawing.Size(280, 25);
             this.lblStorageLocation.TabIndex = 15;
             this.lblStorageLocation.Text = "Место хранения: -";
             // 
@@ -305,7 +305,7 @@
             this.lblPharmacologicGroup.ForeColor = System.Drawing.Color.Black;
             this.lblPharmacologicGroup.Location = new System.Drawing.Point(3, 447);
             this.lblPharmacologicGroup.Name = "lblPharmacologicGroup";
-            this.lblPharmacologicGroup.Size = new System.Drawing.Size(280, 20);
+            this.lblPharmacologicGroup.Size = new System.Drawing.Size(280, 25);
             this.lblPharmacologicGroup.TabIndex = 14;
             this.lblPharmacologicGroup.Text = "Фарм. группа: -";
             // 
@@ -315,7 +315,7 @@
             this.lblManufacturer.ForeColor = System.Drawing.Color.Black;
             this.lblManufacturer.Location = new System.Drawing.Point(3, 422);
             this.lblManufacturer.Name = "lblManufacturer";
-            this.lblManufacturer.Size = new System.Drawing.Size(280, 20);
+            this.lblManufacturer.Size = new System.Drawing.Size(280, 25);
             this.lblManufacturer.TabIndex = 13;
             this.lblManufacturer.Text = "Производитель: -";
             // 
@@ -325,7 +325,7 @@
             this.lblQuantityPerPack.ForeColor = System.Drawing.Color.Black;
             this.lblQuantityPerPack.Location = new System.Drawing.Point(3, 397);
             this.lblQuantityPerPack.Name = "lblQuantityPerPack";
-            this.lblQuantityPerPack.Size = new System.Drawing.Size(280, 20);
+            this.lblQuantityPerPack.Size = new System.Drawing.Size(280, 25);
             this.lblQuantityPerPack.TabIndex = 12;
             this.lblQuantityPerPack.Text = "Кол-во в упаковке: -";
             // 
@@ -335,7 +335,7 @@
             this.lblMeasurementUnit.ForeColor = System.Drawing.Color.Black;
             this.lblMeasurementUnit.Location = new System.Drawing.Point(3, 372);
             this.lblMeasurementUnit.Name = "lblMeasurementUnit";
-            this.lblMeasurementUnit.Size = new System.Drawing.Size(280, 20);
+            this.lblMeasurementUnit.Size = new System.Drawing.Size(280, 25);
             this.lblMeasurementUnit.TabIndex = 11;
             this.lblMeasurementUnit.Text = "Единица измерения: -";
             // 
@@ -354,7 +354,7 @@
             this.lblBarcode.ForeColor = System.Drawing.Color.Black;
             this.lblBarcode.Location = new System.Drawing.Point(3, 88);
             this.lblBarcode.Name = "lblBarcode";
-            this.lblBarcode.Size = new System.Drawing.Size(280, 20);
+            this.lblBarcode.Size = new System.Drawing.Size(280, 25);
             this.lblBarcode.TabIndex = 9;
             this.lblBarcode.Text = "Штрихкод: -";
             // 
@@ -364,7 +364,7 @@
             this.lblWrittenOffReason.ForeColor = System.Drawing.Color.Black;
             this.lblWrittenOffReason.Location = new System.Drawing.Point(3, 322);
             this.lblWrittenOffReason.Name = "lblWrittenOffReason";
-            this.lblWrittenOffReason.Size = new System.Drawing.Size(280, 20);
+            this.lblWrittenOffReason.Size = new System.Drawing.Size(280, 25);
             this.lblWrittenOffReason.TabIndex = 7;
             this.lblWrittenOffReason.Text = "Причина списания: -";
             // 
@@ -374,7 +374,7 @@
             this.lblSupplierBatch.ForeColor = System.Drawing.Color.Black;
             this.lblSupplierBatch.Location = new System.Drawing.Point(3, 347);
             this.lblSupplierBatch.Name = "lblSupplierBatch";
-            this.lblSupplierBatch.Size = new System.Drawing.Size(280, 20);
+            this.lblSupplierBatch.Size = new System.Drawing.Size(280, 25);
             this.lblSupplierBatch.TabIndex = 8;
             this.lblSupplierBatch.Text = "Номер партии: -";
             // 
@@ -384,7 +384,7 @@
             this.lblItemStatus.ForeColor = System.Drawing.Color.Black;
             this.lblItemStatus.Location = new System.Drawing.Point(3, 297);
             this.lblItemStatus.Name = "lblItemStatus";
-            this.lblItemStatus.Size = new System.Drawing.Size(280, 20);
+            this.lblItemStatus.Size = new System.Drawing.Size(280, 25);
             this.lblItemStatus.TabIndex = 6;
             this.lblItemStatus.Text = "Статус: -";
             // 
@@ -394,7 +394,7 @@
             this.lblReceiptDate.ForeColor = System.Drawing.Color.Black;
             this.lblReceiptDate.Location = new System.Drawing.Point(3, 272);
             this.lblReceiptDate.Name = "lblReceiptDate";
-            this.lblReceiptDate.Size = new System.Drawing.Size(280, 20);
+            this.lblReceiptDate.Size = new System.Drawing.Size(280, 25);
             this.lblReceiptDate.TabIndex = 5;
             this.lblReceiptDate.Text = "Дата поступления: -";
             // 
@@ -404,7 +404,7 @@
             this.lblExpirationDate.ForeColor = System.Drawing.Color.Black;
             this.lblExpirationDate.Location = new System.Drawing.Point(3, 247);
             this.lblExpirationDate.Name = "lblExpirationDate";
-            this.lblExpirationDate.Size = new System.Drawing.Size(280, 20);
+            this.lblExpirationDate.Size = new System.Drawing.Size(280, 25);
             this.lblExpirationDate.TabIndex = 4;
             this.lblExpirationDate.Text = "Годен до: -";
             // 
@@ -414,7 +414,7 @@
             this.lblRetailPrice.ForeColor = System.Drawing.Color.Black;
             this.lblRetailPrice.Location = new System.Drawing.Point(3, 222);
             this.lblRetailPrice.Name = "lblRetailPrice";
-            this.lblRetailPrice.Size = new System.Drawing.Size(280, 20);
+            this.lblRetailPrice.Size = new System.Drawing.Size(280, 25);
             this.lblRetailPrice.TabIndex = 3;
             this.lblRetailPrice.Text = "Розничная цена: -";
             // 
@@ -424,7 +424,7 @@
             this.lblPurchasePrice.ForeColor = System.Drawing.Color.Black;
             this.lblPurchasePrice.Location = new System.Drawing.Point(3, 197);
             this.lblPurchasePrice.Name = "lblPurchasePrice";
-            this.lblPurchasePrice.Size = new System.Drawing.Size(280, 20);
+            this.lblPurchasePrice.Size = new System.Drawing.Size(280, 25);
             this.lblPurchasePrice.TabIndex = 2;
             this.lblPurchasePrice.Text = "Закупочная цена: -";
             // 
@@ -434,7 +434,7 @@
             this.lblUid.ForeColor = System.Drawing.Color.Black;
             this.lblUid.Location = new System.Drawing.Point(3, 63);
             this.lblUid.Name = "lblUid";
-            this.lblUid.Size = new System.Drawing.Size(280, 20);
+            this.lblUid.Size = new System.Drawing.Size(280, 25);
             this.lblUid.TabIndex = 1;
             this.lblUid.Text = "UID: -";
             // 
