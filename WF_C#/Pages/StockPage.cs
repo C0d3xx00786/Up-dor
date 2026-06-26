@@ -13,21 +13,17 @@ namespace WF_C_.Pages
         public StockPage()
         {
             InitializeComponent();
-
             dgvMedications.AutoGenerateColumns = false;
-
-            stockBindingSource.DataSource = Data.data;
-            stockBindingSource.Filter = "Item_Status != 'sold'";
-            dgvMedications.DataSource = stockBindingSource;
+            UpdateDataSource();
         }
 
-        //Обновление Таблицы в Складе
         public void UpdateDataSource()
         {
             try
             {
-                // Просто обновляем BindingSource
-                stockBindingSource.Filter = "Item_Status != 'sold'";
+                var filterstock = Data.data.Where(item => item.Item_Status != "sold").ToList();
+                stockBindingSource.DataSource = filterstock;
+                dgvMedications.DataSource = stockBindingSource;
             }
             catch (Exception ex)
             {

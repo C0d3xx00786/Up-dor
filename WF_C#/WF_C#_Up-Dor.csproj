@@ -272,6 +272,9 @@
     <Compile Include="Pages\AutomaticOrdersPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pages\AutomaticOrdersPage.Designer.cs">
+      <DependentUpon>AutomaticOrdersPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ChangeComplaintStatusForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -292,6 +295,9 @@
     </Compile>
     <Compile Include="Pages\DeliveredGoodsPage.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pages\DeliveredGoodsPage.Designer.cs">
+      <DependentUpon>DeliveredGoodsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\HistoryPage.cs">
       <SubType>UserControl</SubType>
@@ -322,11 +328,17 @@
     <EmbeddedResource Include="Pages\AddComplaintForm.resx">
       <DependentUpon>AddComplaintForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\AutomaticOrdersPage.resx">
+      <DependentUpon>AutomaticOrdersPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\ChangeStatus.resx">
       <DependentUpon>ChangeStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\ComplaintsPage.resx">
       <DependentUpon>ComplaintsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\DeliveredGoodsPage.resx">
+      <DependentUpon>DeliveredGoodsPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\HistoryPage.resx">
       <DependentUpon>HistoryPage.cs</DependentUpon>

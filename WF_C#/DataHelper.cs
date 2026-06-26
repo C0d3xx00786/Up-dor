@@ -204,7 +204,9 @@ namespace WF_C_
         public static BindingList<ComplaintItem> complaintsList = new BindingList<ComplaintItem>();
 
         // Строка для подключенния к базе данных
-        public static readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Users\idimo\source\repos\WF_C#\WF_C#\DataBase\Drugs.mdf;Integrated Security=True";
+        public static readonly string connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;
+            AttachDbFilename={AppDomain.CurrentDomain.BaseDirectory}DataBase\Drugs.mdf;
+            Integrated Security=True;";
 
         public static async Task RefreshAllDataAsync()
         {
@@ -385,7 +387,7 @@ namespace WF_C_
     {
         public int Id { get; set; }
         public string Uid { get; set; }              // UID лекарства (связь с drug_items)
-        public string DrugName { get; set; }         // Название (можно получить через DrugInfo, но сохраняем для простоты)
+        public string DrugName { get; set; }         // Название
         public string DoctorName { get; set; }
         public string RecipeDetails { get; set; }    // Реквизиты рецепта
         public string PatientName { get; set; }

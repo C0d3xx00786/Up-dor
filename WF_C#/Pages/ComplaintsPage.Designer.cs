@@ -16,6 +16,12 @@
             this.pnlMain = new System.Windows.Forms.Panel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.dgvComplaints = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DrugName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DoctorName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PatientName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ComplaintDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.lblDetailsTitle = new System.Windows.Forms.Label();
             this.pnlDetailsContent = new System.Windows.Forms.Panel();
@@ -31,12 +37,6 @@
             this.lblDetailUid = new System.Windows.Forms.Label();
             this.lblDetailId = new System.Windows.Forms.Label();
             this.lblSeparator = new System.Windows.Forms.Label();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DrugName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DoctorName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PatientName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ComplaintDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -73,7 +73,7 @@
             // 
             this.splitContainer.Panel2.Controls.Add(this.pnlDetails);
             this.splitContainer.Size = new System.Drawing.Size(1136, 674);
-            this.splitContainer.SplitterDistance = 784;
+            this.splitContainer.SplitterDistance = 785;
             this.splitContainer.SplitterWidth = 3;
             this.splitContainer.TabIndex = 1;
             // 
@@ -100,10 +100,52 @@
             this.dgvComplaints.ReadOnly = true;
             this.dgvComplaints.RowHeadersVisible = false;
             this.dgvComplaints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvComplaints.Size = new System.Drawing.Size(784, 674);
+            this.dgvComplaints.Size = new System.Drawing.Size(785, 674);
             this.dgvComplaints.TabIndex = 0;
             this.dgvComplaints.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvComplaints_CellClick);
             this.dgvComplaints.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvComplaints_CellContentClick);
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            // 
+            // DrugName
+            // 
+            this.DrugName.DataPropertyName = "DrugName";
+            this.DrugName.HeaderText = "Лекарство";
+            this.DrugName.Name = "DrugName";
+            this.DrugName.ReadOnly = true;
+            // 
+            // DoctorName
+            // 
+            this.DoctorName.DataPropertyName = "DoctorName";
+            this.DoctorName.HeaderText = "Врач";
+            this.DoctorName.Name = "DoctorName";
+            this.DoctorName.ReadOnly = true;
+            // 
+            // PatientName
+            // 
+            this.PatientName.DataPropertyName = "PatientName";
+            this.PatientName.HeaderText = "Покупатель";
+            this.PatientName.Name = "PatientName";
+            this.PatientName.ReadOnly = true;
+            // 
+            // ComplaintDate
+            // 
+            this.ComplaintDate.DataPropertyName = "ComplaintDate";
+            this.ComplaintDate.HeaderText = "Дата";
+            this.ComplaintDate.Name = "ComplaintDate";
+            this.ComplaintDate.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Статус";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
             // 
             // pnlDetails
             // 
@@ -114,7 +156,7 @@
             this.pnlDetails.Location = new System.Drawing.Point(0, 0);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Padding = new System.Windows.Forms.Padding(13);
-            this.pnlDetails.Size = new System.Drawing.Size(349, 674);
+            this.pnlDetails.Size = new System.Drawing.Size(348, 674);
             this.pnlDetails.TabIndex = 0;
             // 
             // lblDetailsTitle
@@ -146,7 +188,7 @@
             this.pnlDetailsContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDetailsContent.Location = new System.Drawing.Point(13, 13);
             this.pnlDetailsContent.Name = "pnlDetailsContent";
-            this.pnlDetailsContent.Size = new System.Drawing.Size(323, 648);
+            this.pnlDetailsContent.Size = new System.Drawing.Size(322, 648);
             this.pnlDetailsContent.TabIndex = 1;
             // 
             // btnAdd
@@ -161,7 +203,7 @@
             this.btnAdd.Margin = new System.Windows.Forms.Padding(15);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Padding = new System.Windows.Forms.Padding(15);
-            this.btnAdd.Size = new System.Drawing.Size(323, 75);
+            this.btnAdd.Size = new System.Drawing.Size(322, 75);
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "➕ Добавить жалобу";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -172,7 +214,7 @@
             this.lblDetailComment.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.lblDetailComment.Location = new System.Drawing.Point(3, 329);
             this.lblDetailComment.Name = "lblDetailComment";
-            this.lblDetailComment.Size = new System.Drawing.Size(240, 229);
+            this.lblDetailComment.Size = new System.Drawing.Size(266, 130);
             this.lblDetailComment.TabIndex = 10;
             this.lblDetailComment.Text = "Комментарий: -";
             // 
@@ -264,48 +306,6 @@
             this.lblSeparator.Name = "lblSeparator";
             this.lblSeparator.Size = new System.Drawing.Size(240, 2);
             this.lblSeparator.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // DrugName
-            // 
-            this.DrugName.DataPropertyName = "DrugName";
-            this.DrugName.HeaderText = "Лекарство";
-            this.DrugName.Name = "DrugName";
-            this.DrugName.ReadOnly = true;
-            // 
-            // DoctorName
-            // 
-            this.DoctorName.DataPropertyName = "DoctorName";
-            this.DoctorName.HeaderText = "Врач";
-            this.DoctorName.Name = "DoctorName";
-            this.DoctorName.ReadOnly = true;
-            // 
-            // PatientName
-            // 
-            this.PatientName.DataPropertyName = "PatientName";
-            this.PatientName.HeaderText = "Покупатель";
-            this.PatientName.Name = "PatientName";
-            this.PatientName.ReadOnly = true;
-            // 
-            // ComplaintDate
-            // 
-            this.ComplaintDate.DataPropertyName = "ComplaintDate";
-            this.ComplaintDate.HeaderText = "Дата";
-            this.ComplaintDate.Name = "ComplaintDate";
-            this.ComplaintDate.ReadOnly = true;
-            // 
-            // Status
-            // 
-            this.Status.DataPropertyName = "Status";
-            this.Status.HeaderText = "Статус";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
             // 
             // ComplaintsPage
             // 
