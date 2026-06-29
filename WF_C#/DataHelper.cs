@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -204,7 +206,8 @@ namespace WF_C_
         public static BindingList<ComplaintItem> complaintsList = new BindingList<ComplaintItem>();
 
         // Строка для подключенния к базе данных
-        public static readonly string connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;
+        public static readonly string connectionString =
+            $@"Data Source=(LocalDB)\MSSQLLocalDB;
             AttachDbFilename={AppDomain.CurrentDomain.BaseDirectory}DataBase\Drugs.mdf;
             Integrated Security=True;";
 
@@ -259,6 +262,96 @@ namespace WF_C_
 
                 complaintsList.Clear();
                 foreach (var item in complaintsResult) complaintsList.Add(item);
+            }
+        }
+        public static async Task EnsureDatabaseCreatedAsync()
+        {
+            string databasePath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "DataBase",
+                "Drugs.mdf");
+
+            if (!File.Exists(databasePath))
+            {
+                try
+                {
+                    await Task.Run(() => CreateDatabase());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        $"Ошибка при создании базы данных:\n{ex.Message}",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private static void CreateDatabase()
+        {
+            string databasePath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "DataBase",
+                "Drugs.mdf");
+
+            string logPath = Path.ChangeExtension(databasePath, "_log.ldf");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(databasePath));
+
+            // Подключаемся к master
+            string masterConnection =
+                @"Data Source=(LocalDB)\MSSQLLocalDB;
+              Initial Catalog=master;
+              Integrated Security=True;";
+
+            using (SqlConnection connection = new SqlConnection(masterConnection))
+            {
+                connection.Open();
+
+                string createDatabaseSql = $@"
+                    CREATE DATABASE Drugs
+                    ON PRIMARY
+                    (
+                        NAME = Drugs,
+                        FILENAME = '{databasePath}'
+                    )
+                    LOG ON
+                    (
+                        NAME = Drugs_log,
+                        FILENAME = '{logPath}'
+                    );";
+
+                using (SqlCommand command = new SqlCommand(createDatabaseSql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            // Выполняем CreateDatabase.sql
+            string scriptPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "DataBase",
+                "CreateDatabase.sql");
+
+            string script = File.ReadAllText(scriptPath);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                foreach (string commandText in script.Split(
+                             new[] { "GO", "Go", "go" },
+                             StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (string.IsNullOrWhiteSpace(commandText))
+                        continue;
+
+                    using (SqlCommand command = new SqlCommand(commandText, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
         }
     }
@@ -374,7 +467,7 @@ namespace WF_C_
     public class CartItem
     {
         public string Uid { get; set; }
-        public string Name { get; set; }
+        public string Name_Item { get; set; }
         public string Barcode { get; set; }
         public decimal Retail_Price { get; set; }
         public DateTime Expiration_Date { get; set; }

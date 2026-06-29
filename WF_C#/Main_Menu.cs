@@ -53,6 +53,8 @@ namespace Up_Dor
 
             try
             {
+                await Data.EnsureDatabaseCreatedAsync();
+
                 await Data.RefreshAllDataAsync();
                 UpdateStatusBar();
 

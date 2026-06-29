@@ -88,14 +88,14 @@ namespace WF_C_
             if (narcoticItems.Count > 0)
             {
                 warnings += $"⚠️ ВНИМАНИЕ! В корзине {narcoticItems.Count} НАРКОТИЧЕСКИХ препаратов:\n";
-                warnings += string.Join("\n", narcoticItems.Select(i => $"  - {i.Name} (UID: {i.Uid})"));
+                warnings += string.Join("\n", narcoticItems.Select(i => $"  - {i.Name_Item} (UID: {i.Uid})"));
                 warnings += "\n\nТребуется специальный учет!\n\n";
             }
 
             if (recipeItems.Count > 0)
             {
                 warnings += $"📋 В корзине {recipeItems.Count} РЕЦЕПТУРНЫХ препаратов:\n";
-                warnings += string.Join("\n", recipeItems.Select(i => $"  - {i.Name} (UID: {i.Uid})"));
+                warnings += string.Join("\n", recipeItems.Select(i => $"  - {i.Name_Item} (UID: {i.Uid})"));
                 warnings += "\n\nТребуется рецепт!\n\n";
             }
 
@@ -265,7 +265,7 @@ namespace WF_C_
             cartItems.Add(new CartItem
             {
                 Uid = item.Uid,
-                Name = item.Name_Item,
+                Name_Item = item.Name_Item,
                 Barcode = item.Barcode,
                 Retail_Price = item.Retail_Price,
                 Expiration_Date = item.Expiration_Date,
